@@ -1,10 +1,10 @@
 {
   "schemaVersion": 1,
-  "id": "template-mod",
+  "id": "brigadier-extension-library",
   "version": "${version}",
 
-  "name": "Template Mod",
-  "description": "I am templet",
+  "name": "Brigadier Extension Library",
+  "description": "Extension to the Brigadier command library, making it easier to create commands, but harder for everyone else who has to download another mod.",
   "authors": [
   ],
   "contact": {
@@ -13,16 +13,16 @@
   },
 
   "license": "CC0-1.0",
-  "icon": "assets/template/icon.png",
+  "icon": "assets/brigadierextension/icon.png",
 
   "environment": "*",
   "entrypoints": {
     "main": [
-      "template.TemplateMod"
+      "brigadierextension.BrigadierExtensionLibrary"
     ]
   },
   "mixins": [
-    "template.mixins.json"
+    "brigadierextension.mixins.json"
   ],
 
   "depends": {
