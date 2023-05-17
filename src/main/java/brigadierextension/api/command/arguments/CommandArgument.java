@@ -5,8 +5,8 @@ import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.builder.ArgumentBuilder;
 import com.mojang.brigadier.builder.RequiredArgumentBuilder;
-import com.mojang.brigadier.context.CommandContext;
-import net.minecraft.server.command.ServerCommandSource;
+
+import static brigadierextension.api.command.simplecommands.providers.UniversalCommandContextProvider.*;
 
 public class CommandArgument<T> {
     private final String identifier;
@@ -36,7 +36,7 @@ public class CommandArgument<T> {
         return RequiredArgumentBuilder.argument(identifier, argumentType);
     }
 
-    public T get(CommandContext<ServerCommandSource> context) {
+    public T get() {
         return context.getArgument(identifier, outputType);
     }
 }
