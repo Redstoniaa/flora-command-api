@@ -1,4 +1,4 @@
-package brigadierextension.command.contextualcommands.providers;
+package brigadierextension.api.command.simplecommands.providers;
 
 import com.mojang.brigadier.context.CommandContext;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
@@ -27,17 +27,10 @@ public class ClientCommandContextProvider {
      * The {@link MinecraftClient} for the executed command. Shortcut to calling {@code source.getClient()}. Not present
      * outside command execution
      */
-    public static MinecraftClient server;
+    public static MinecraftClient client;
     /**
      * The {@link ClientWorld} for the executed command. Shortcut to calling {@code source.getWorld()}. Not present
      * outside command execution
      */
     public static ClientWorld world;
-
-    public static void setContext(CommandContext<FabricClientCommandSource> ctx) {
-        context = ctx;
-        source = ctx.getSource();
-        server = source.getClient();
-        world = source.getWorld();
-    }
 }

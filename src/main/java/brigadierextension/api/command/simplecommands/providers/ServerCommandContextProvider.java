@@ -1,11 +1,9 @@
-package brigadierextension.command.contextualcommands.providers;
+package brigadierextension.api.command.simplecommands.providers;
 
 import com.mojang.brigadier.context.CommandContext;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.world.ServerWorld;
-
-import static net.minecraft.server.command.CommandManager.*;
 
 /**
  * Provides the {@link CommandContext} and other relevant and frequently referenced bits such as the
@@ -35,11 +33,4 @@ public class ServerCommandContextProvider {
      * outside command execution
      */
     public static ServerWorld world;
-
-    public static void setContext(CommandContext<ServerCommandSource> ctx) {
-        context = ctx;
-        source = ctx.getSource();
-        server = source.getServer();
-        world = source.getWorld();
-    }
 }

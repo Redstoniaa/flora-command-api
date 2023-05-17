@@ -1,4 +1,4 @@
-package brigadierextension.command.argument;
+package brigadierextension.api.command.arguments;
 
 import com.mojang.brigadier.arguments.ArgumentType;
 import com.mojang.brigadier.context.CommandContext;
