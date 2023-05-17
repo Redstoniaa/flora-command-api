@@ -1,9 +1,11 @@
-package brigadierextension.command.contextprovider;
+package brigadierextension.command.contextualcommands.providers;
 
 import com.mojang.brigadier.context.CommandContext;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.world.ServerWorld;
+
+import static net.minecraft.server.command.CommandManager.*;
 
 /**
  * Provides the {@link CommandContext} and other relevant and frequently referenced bits such as the
