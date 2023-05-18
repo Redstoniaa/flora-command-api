@@ -1,8 +1,8 @@
 package brigadierextension.command.utils;
 
-import brigadierextension.api.command.simplecommands.providers.ClientCommandContextProvider;
-import brigadierextension.api.command.simplecommands.providers.ServerCommandContextProvider;
-import brigadierextension.api.command.simplecommands.providers.UniversalCommandContextProvider;
+import brigadierextension.api.simplecommands.providers.ClientCommandContextProvider;
+import brigadierextension.api.simplecommands.providers.ServerCommandContextProvider;
+import brigadierextension.api.simplecommands.providers.UniversalCommandContextProvider;
 import com.mojang.brigadier.context.CommandContext;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
 import net.minecraft.server.command.ServerCommandSource;

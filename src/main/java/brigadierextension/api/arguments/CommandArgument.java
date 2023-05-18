@@ -1,4 +1,4 @@
-package brigadierextension.api.command.arguments;
+package brigadierextension.api.arguments;
 
 import com.mojang.brigadier.arguments.ArgumentType;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
@@ -6,7 +6,7 @@ import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.builder.ArgumentBuilder;
 import com.mojang.brigadier.builder.RequiredArgumentBuilder;
 
-import static brigadierextension.api.command.simplecommands.providers.UniversalCommandContextProvider.*;
+import static brigadierextension.api.simplecommands.providers.UniversalCommandContextProvider.*;
 
 public class CommandArgument<T> {
     private final String identifier;

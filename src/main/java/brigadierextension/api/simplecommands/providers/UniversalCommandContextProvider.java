@@ -1,4 +1,4 @@
-package brigadierextension.api.command.simplecommands.providers;
+package brigadierextension.api.simplecommands.providers;
 
 import com.mojang.brigadier.context.CommandContext;
 
