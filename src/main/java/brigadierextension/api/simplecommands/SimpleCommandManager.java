@@ -5,7 +5,7 @@ import com.mojang.brigadier.Command;
 
 public class SimpleCommandManager {
     public static <S> Command<S> simple(SimpleCommand<S> simpleCommand) {
-        return (context) -> {
+        return context -> {
             CommandContextGet.setContext(context);
             simpleCommand.run();
             // clear context

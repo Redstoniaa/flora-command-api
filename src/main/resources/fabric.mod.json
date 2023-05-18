@@ -1,15 +1,14 @@
 {
   "schemaVersion": 1,
-  "id": "brigadier-extension-library",
+  "id": "brigadier-extension-api",
   "version": "${version}",
 
-  "name": "Brigadier Extension Library",
-  "description": "Extension to the Brigadier command library, making it easier to create commands, but harder for everyone else who has to download another mod.",
+  "name": "Brigadier Extension API",
+  "description": "Extension to the Brigadier command library, making it easier to create commands, but harder for everyone else who has to download yet another dependency mod.",
   "authors": [
   ],
   "contact": {
-    "homepage": "https://fabricmc.net/",
-    "sources": "https://github.com/FabricMC/fabric-example-mod"
+    "sources": "https://github.com/Redstoniaa/brigadier-extension"
   },
 
   "license": "MIT",
@@ -18,7 +17,7 @@
   "environment": "*",
   "entrypoints": {
     "main": [
-      "brigadierextension.BrigadierExtensionLibrary"
+      "brigadierextension.BrigadierExtensionAPI"
     ]
   },
   "mixins": [
