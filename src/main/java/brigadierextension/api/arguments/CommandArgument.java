@@ -5,6 +5,7 @@ import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.builder.ArgumentBuilder;
 import com.mojang.brigadier.builder.RequiredArgumentBuilder;
+import com.mojang.brigadier.context.CommandContext;
 
 import static brigadierextension.api.simplecommands.providers.UniversalCommandContextProvider.*;
 
@@ -37,6 +38,10 @@ public class CommandArgument<T> {
     }
 
     public T get() {
-        return context.getArgument(identifier, outputType);
+        return get(context);
+    }
+
+    public <S> T get(CommandContext<S> ctx) {
+        return ctx.getArgument(identifier, outputType);
     }
 }
