@@ -17,4 +17,11 @@ public class ServerCommandContextProvider {
         server = source.getServer();
         world = source.getWorld();
     }
+
+    public static void clearContext() {
+        context = null;
+        source = null;
+        server = null;
+        world = null;
+    }
 }

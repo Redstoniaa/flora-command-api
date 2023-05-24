@@ -13,19 +13,27 @@ public class SimpleCommandManager {
         return context -> {
             setProviderContext(context);
             simpleCommand.run();
-            // clear context
+            clearProviderContext();
+
             return 1;
         };
     }
 
     @SuppressWarnings("unchecked")
     public static <S> void setProviderContext(CommandContext<S> context) {
-        S source = context.getSource();
         UniversalCommandContextProvider.setContext(context);
+
+        S source = context.getSource();
         if (source instanceof ServerCommandSource) {
             ServerCommandContextProvider.setContext((CommandContext<ServerCommandSource>) context);
         } else if (source instanceof FabricClientCommandSource) {
             ClientCommandContextProvider.setContext((CommandContext<FabricClientCommandSource>) context);
         }
+    }
+
+    public static void clearProviderContext() {
+        UniversalCommandContextProvider.clearContext();
+        ServerCommandContextProvider.clearContext();
+        ClientCommandContextProvider.clearContext();
     }
 }

@@ -8,4 +8,8 @@ public class UniversalCommandContextProvider {
     public static void setContext(CommandContext<?> ctx) {
         context = ctx;
     }
+
+    public static void clearContext() {
+        context = null;
+    }
 }
