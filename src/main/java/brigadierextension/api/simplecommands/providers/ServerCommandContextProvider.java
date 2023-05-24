@@ -10,4 +10,11 @@ public class ServerCommandContextProvider {
     public static ServerCommandSource source;
     public static MinecraftServer server;
     public static ServerWorld world;
+
+    public static void setContext(CommandContext<ServerCommandSource> ctx) {
+        context = ctx;
+        source = context.getSource();
+        server = source.getServer();
+        world = source.getWorld();
+    }
 }

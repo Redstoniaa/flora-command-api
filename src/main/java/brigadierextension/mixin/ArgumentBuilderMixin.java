@@ -1,7 +1,7 @@
 package brigadierextension.mixin;
 
 import brigadierextension.api.simplecommands.SimpleCommand;
-import brigadierextension.command.utils.CommandContextGet;
+import brigadierextension.api.simplecommands.SimpleCommandManager;
 import brigadierextension.mixin.interfaces.ArgumentBuilderExecuteSimpleCommand;
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.builder.ArgumentBuilder;
@@ -16,7 +16,7 @@ public abstract class ArgumentBuilderMixin<S, T extends ArgumentBuilder<S, T>> i
     @Override
     public T executesSimple(final SimpleCommand<S> simpleCommand) {
         Command<S> command = c -> {
-            CommandContextGet.setContext(c);
+            SimpleCommandManager.setProviderContext(c);
             simpleCommand.run();
             return 1;
         };

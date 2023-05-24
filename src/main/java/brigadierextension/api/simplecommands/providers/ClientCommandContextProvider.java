@@ -10,4 +10,11 @@ public class ClientCommandContextProvider {
     public static FabricClientCommandSource source;
     public static MinecraftClient client;
     public static ClientWorld world;
+
+    public static void setContext(CommandContext<FabricClientCommandSource> ctx) {
+        context = ctx;
+        source = context.getSource();
+        client = source.getClient();
+        world = source.getWorld();
+    }
 }
