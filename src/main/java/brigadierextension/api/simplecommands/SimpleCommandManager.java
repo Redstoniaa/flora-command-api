@@ -3,20 +3,13 @@ package brigadierextension.api.simplecommands;
 import brigadierextension.api.simplecommands.providers.ClientCommandContextProvider;
 import brigadierextension.api.simplecommands.providers.ServerCommandContextProvider;
 import brigadierextension.api.simplecommands.providers.UniversalCommandContextProvider;
-import com.mojang.brigadier.Command;
 import com.mojang.brigadier.context.CommandContext;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
 import net.minecraft.server.command.ServerCommandSource;
 
 public class SimpleCommandManager {
-    public static <S> Command<S> simple(SimpleCommand<S> simpleCommand) {
-        return context -> {
-            setProviderContext(context);
-            simpleCommand.run();
-            clearProviderContext();
-
-            return 1;
-        };
+    public static SimpleLiteralArgumentBuilder<ServerCommandSource> literal(String literal) {
+        return SimpleLiteralArgumentBuilder.literal(literal);
     }
 
     @SuppressWarnings("unchecked")
