@@ -1,15 +1,35 @@
 package brigadierextension.api.simplecommands;
 
+import brigadierextension.api.arguments.CommandArgument;
+import brigadierextension.api.simplecommands.argumentbuilder.SimpleLiteralArgumentBuilder;
+import brigadierextension.api.simplecommands.argumentbuilder.SimpleRequiredArgumentBuilder;
 import brigadierextension.api.simplecommands.providers.ClientCommandContextProvider;
 import brigadierextension.api.simplecommands.providers.ServerCommandContextProvider;
 import brigadierextension.api.simplecommands.providers.UniversalCommandContextProvider;
+import com.mojang.brigadier.Command;
 import com.mojang.brigadier.context.CommandContext;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
 import net.minecraft.server.command.ServerCommandSource;
 
 public class SimpleCommandManager {
-    public static SimpleLiteralArgumentBuilder<ServerCommandSource> literal(String literal) {
-        return SimpleLiteralArgumentBuilder.literal(literal);
+    public static class Server {
+        public static SimpleLiteralArgumentBuilder<ServerCommandSource> literal(final String literal) {
+            return SimpleLiteralArgumentBuilder.literal(literal);
+        }
+
+        public static <T> SimpleRequiredArgumentBuilder<ServerCommandSource, T> argument(final CommandArgument<ServerCommandSource, T> argument) {
+            return SimpleRequiredArgumentBuilder.argument(argument);
+        }
+    }
+
+    public static class Client {
+        public static SimpleLiteralArgumentBuilder<FabricClientCommandSource> literal(String literal) {
+            return SimpleLiteralArgumentBuilder.literal(literal);
+        }
+
+        public static <T> SimpleRequiredArgumentBuilder<FabricClientCommandSource, T> argument(final CommandArgument<FabricClientCommandSource, T> argument) {
+            return SimpleRequiredArgumentBuilder.argument(argument);
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -28,5 +48,14 @@ public class SimpleCommandManager {
         UniversalCommandContextProvider.clearContext();
         ServerCommandContextProvider.clearContext();
         ClientCommandContextProvider.clearContext();
+    }
+
+    public static <S> Command<S> fromSimple(SimpleCommand<S> simpleCommand) {
+        return context -> {
+            setProviderContext(context);
+            simpleCommand.run();
+            clearProviderContext();
+            return 1;
+        };
     }
 }
