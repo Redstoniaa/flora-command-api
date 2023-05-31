@@ -24,15 +24,15 @@ public class CommandArgument<S, T> {
         this.suggestionProvider = suggestionProvider;
     }
 
-    public SimpleRequiredArgumentBuilder<S, T> asSimpleBuilder() {
-        return SimpleRequiredArgumentBuilder.argument(identifier, argumentType, suggestionProvider);
-    }
-
     public T get() {
         return get(context);
     }
 
     public T get(CommandContext<?> ctx) {
         return ctx.getArgument(identifier, outputType);
+    }
+
+    public SimpleRequiredArgumentBuilder<S, T> asSimpleBuilder() {
+        return SimpleRequiredArgumentBuilder.argument(identifier, argumentType, suggestionProvider);
     }
 }
