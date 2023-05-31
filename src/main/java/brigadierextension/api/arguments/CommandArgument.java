@@ -2,7 +2,6 @@ package brigadierextension.api.arguments;
 
 import brigadierextension.api.simplecommands.argumentbuilder.SimpleRequiredArgumentBuilder;
 import com.mojang.brigadier.arguments.ArgumentType;
-import com.mojang.brigadier.builder.RequiredArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.suggestion.SuggestionProvider;
 
@@ -23,10 +22,6 @@ public class CommandArgument<S, T> {
         this.argumentType = argumentType;
         this.outputType = outputType;
         this.suggestionProvider = suggestionProvider;
-    }
-
-    public RequiredArgumentBuilder<S, T> pass() {
-        return RequiredArgumentBuilder.argument(identifier, argumentType);
     }
 
     public SimpleRequiredArgumentBuilder<S, T> asSimpleBuilder() {
