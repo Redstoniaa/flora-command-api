@@ -1,8 +1,8 @@
 package brigadierextension.api.simplecommands;
 
 import brigadierextension.api.arguments.CommandArgument;
-import brigadierextension.api.simplecommands.argumentbuilder.SimpleLiteralArgumentBuilder;
-import brigadierextension.api.simplecommands.argumentbuilder.SimpleRequiredArgumentBuilder;
+import brigadierextension.api.argumentbuilder.SimpleLiteralArgumentBuilder;
+import brigadierextension.api.argumentbuilder.SimpleRequiredArgumentBuilder;
 import brigadierextension.api.simplecommands.providers.ClientCommandContextProvider;
 import brigadierextension.api.simplecommands.providers.ServerCommandContextProvider;
 import brigadierextension.api.simplecommands.providers.UniversalCommandContextProvider;

@@ -1,4 +1,4 @@
-package brigadierextension.api.simplecommands.argumentbuilder;
+package brigadierextension.api.argumentbuilder;
 
 import brigadierextension.api.arguments.CommandArgument;
 import brigadierextension.api.simplecommands.SimpleCommand;
@@ -16,7 +16,7 @@ import static brigadierextension.api.simplecommands.SimpleCommandManager.fromSim
  */
 public class SimpleRequiredArgumentBuilder<S, T>
         extends ArgumentBuilder<S, SimpleRequiredArgumentBuilder<S, T>>
-        implements ISimpleCommandExecutable<S, SimpleRequiredArgumentBuilder<S, T>> {
+        implements SimpleArgumentBuilder<S, SimpleRequiredArgumentBuilder<S, T>> {
     public final String name;
     public final ArgumentType<T> type;
     public final SuggestionProvider<S> suggestionProvider;

@@ -1,6 +1,6 @@
 package brigadierextension.api.arguments;
 
-import brigadierextension.api.simplecommands.argumentbuilder.SimpleRequiredArgumentBuilder;
+import brigadierextension.api.argumentbuilder.SimpleRequiredArgumentBuilder;
 import com.mojang.brigadier.arguments.ArgumentType;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.suggestion.SuggestionProvider;

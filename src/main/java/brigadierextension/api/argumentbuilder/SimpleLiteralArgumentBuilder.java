@@ -1,4 +1,4 @@
-package brigadierextension.api.simplecommands.argumentbuilder;
+package brigadierextension.api.argumentbuilder;
 
 import brigadierextension.api.simplecommands.SimpleCommand;
 import com.mojang.brigadier.builder.ArgumentBuilder;
@@ -13,7 +13,7 @@ import static brigadierextension.api.simplecommands.SimpleCommandManager.*;
  */
 public class SimpleLiteralArgumentBuilder<S>
         extends ArgumentBuilder<S, SimpleLiteralArgumentBuilder<S>>
-        implements ISimpleCommandExecutable<S, SimpleLiteralArgumentBuilder<S>> {
+        implements SimpleArgumentBuilder<S, SimpleLiteralArgumentBuilder<S>> {
     public final String literal;
 
     public SimpleLiteralArgumentBuilder(final String literal) {
