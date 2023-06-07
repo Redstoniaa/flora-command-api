@@ -3,10 +3,12 @@ package brigadierextension.api.tree.treebuilder;
 import brigadierextension.api.tree.simplecommands.SimpleCommand;
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.RedirectModifier;
+import com.mojang.brigadier.SingleRedirectModifier;
 import com.mojang.brigadier.builder.ArgumentBuilder;
 import com.mojang.brigadier.tree.CommandNode;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.function.Predicate;
 
@@ -20,14 +22,16 @@ public abstract class TreeBuilder<S, T extends TreeBuilder<S, T>> {
     public List<TreeBuilder<S, ?>> children = new ArrayList<>();
     public SimpleCommand<S> command;
     public Predicate<S> requirement = s -> true;
-    // redirect
+    public String redirectionKey = null;
+    public String redirectTarget = null;
     public RedirectModifier<S> redirectModifier = null;
     public boolean forks;
 
     protected abstract T getThis();
 
     public T then(final TreeBuilder<S, ?> child) {
-        // check for redirect, and fail if it exists.
+        if (redirectTarget != null)
+            throw new IllegalStateException("Cannot add children to a redirected node");
         return getThis();
     }
 
@@ -41,8 +45,35 @@ public abstract class TreeBuilder<S, T extends TreeBuilder<S, T>> {
         return getThis();
     }
 
-    // redirect-related functions
+    public T redirect(final String target) {
+        return forward(target, null, false);
+    }
 
+    public T redirect(final String target, final SingleRedirectModifier<S> modifier) {
+        return forward(target, modifier == null ? null : o -> Collections.singleton(modifier.apply(o)), false);
+    }
+
+    public T fork(final String target, final RedirectModifier<S> modifier) {
+        return forward(target, modifier, true);
+    }
+
+    public T markAsRedirectTarget(String id) {
+        if (redirectTarget != null)
+            throw new IllegalStateException("No point");
+        redirectionKey = id;
+        return getThis();
+    }
+
+    public T forward(final String target, final RedirectModifier<S> modifier, final boolean fork) {
+        if (!children.isEmpty())
+            throw new IllegalStateException("Cannot forward a node with children");
+        else if (redirectionKey != null)
+            throw new IllegalStateException("No point redirecting a node that is already redirected to");
+        redirectTarget = target;
+        redirectModifier = modifier;
+        forks = fork;
+        return getThis();
+    }
     /**
      * Build a {@link CommandNode} from this TreeBuilder.
      * <p>
@@ -62,5 +93,16 @@ public abstract class TreeBuilder<S, T extends TreeBuilder<S, T>> {
     protected CommandNode<S> getRedirect() {
         // put in logic for this later
         return null;
+    }
+
+    /**
+     * @return A list of all the children (and children of children, etc.) of this builder.
+     */
+    public List<TreeBuilder<S, ?>> collectChildren() {
+        List<TreeBuilder<S, ?>> children = new ArrayList<>();
+        children.add(this);
+        for (TreeBuilder<S, ?> child : this.children)
+            children.addAll(child.collectChildren());
+        return children;
     }
 }
