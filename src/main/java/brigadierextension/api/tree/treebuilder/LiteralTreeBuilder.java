@@ -1,4 +1,4 @@
-package brigadierextension.api.treebuilder;
+package brigadierextension.api.tree.treebuilder;
 
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.tree.LiteralCommandNode;

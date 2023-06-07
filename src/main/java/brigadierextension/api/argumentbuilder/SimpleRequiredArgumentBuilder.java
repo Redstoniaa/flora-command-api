@@ -1,14 +1,14 @@
 package brigadierextension.api.argumentbuilder;
 
-import brigadierextension.api.arguments.CommandArgument;
-import brigadierextension.api.simplecommands.SimpleCommand;
+import brigadierextension.api.tree.arguments.CommandArgument;
+import brigadierextension.api.tree.simplecommands.SimpleCommand;
 import com.mojang.brigadier.arguments.ArgumentType;
 import com.mojang.brigadier.builder.ArgumentBuilder;
 import com.mojang.brigadier.suggestion.SuggestionProvider;
 import com.mojang.brigadier.tree.ArgumentCommandNode;
 import com.mojang.brigadier.tree.CommandNode;
 
-import static brigadierextension.api.simplecommands.SimpleCommandManager.fromSimple;
+import static brigadierextension.api.tree.simplecommands.SimpleCommandManager.fromSimple;
 
 /**
  * Implementation of {@link com.mojang.brigadier.builder.RequiredArgumentBuilder} with methods specific to the Simple

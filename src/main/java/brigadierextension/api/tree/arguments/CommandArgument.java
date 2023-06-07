@@ -1,11 +1,11 @@
-package brigadierextension.api.arguments;
+package brigadierextension.api.tree.arguments;
 
 import brigadierextension.api.argumentbuilder.SimpleRequiredArgumentBuilder;
 import com.mojang.brigadier.arguments.ArgumentType;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.suggestion.SuggestionProvider;
 
-import static brigadierextension.api.simplecommands.providers.UniversalCommandContextProvider.*;
+import static brigadierextension.api.tree.simplecommands.providers.UniversalCommandContextProvider.*;
 
 public class CommandArgument<S, T> {
     public final String identifier;

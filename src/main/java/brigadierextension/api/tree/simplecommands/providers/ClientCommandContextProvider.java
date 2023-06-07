@@ -1,4 +1,4 @@
-package brigadierextension.api.simplecommands.providers;
+package brigadierextension.api.tree.simplecommands.providers;
 
 import com.mojang.brigadier.context.CommandContext;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;

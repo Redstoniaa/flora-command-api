@@ -1,4 +1,4 @@
-package brigadierextension.api.simplecommands;
+package brigadierextension.api.tree.simplecommands;
 
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 

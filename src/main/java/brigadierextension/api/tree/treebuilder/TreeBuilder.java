@@ -1,6 +1,6 @@
-package brigadierextension.api.treebuilder;
+package brigadierextension.api.tree.treebuilder;
 
-import brigadierextension.api.simplecommands.SimpleCommand;
+import brigadierextension.api.tree.simplecommands.SimpleCommand;
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.RedirectModifier;
 import com.mojang.brigadier.builder.ArgumentBuilder;
@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
 
-import static brigadierextension.api.simplecommands.SimpleCommandManager.*;
+import static brigadierextension.api.tree.simplecommands.SimpleCommandManager.*;
 
 /**
  * Mirrors Brigadier's {@link ArgumentBuilder}, while also adding useful features to make life easier defining

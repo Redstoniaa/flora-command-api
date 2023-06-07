@@ -1,6 +1,6 @@
 package brigadierextension.api.argumentbuilder;
 
-import brigadierextension.api.simplecommands.SimpleCommand;
+import brigadierextension.api.tree.simplecommands.SimpleCommand;
 import com.mojang.brigadier.builder.ArgumentBuilder;
 
 /**
