@@ -10,6 +10,7 @@ import com.mojang.brigadier.tree.CommandNode;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Predicate;
 
 import static brigadierextension.api.tree.simplecommands.SimpleCommandManager.*;
@@ -104,5 +105,13 @@ public abstract class TreeBuilder<S, T extends TreeBuilder<S, T>> {
         for (TreeBuilder<S, ?> child : this.children)
             children.addAll(child.collectChildren());
         return children;
+    }
+
+    public CommandNode<S> assemble(Map<TreeBuilder<S, ?>, CommandNode<S>> blueprint) {
+        CommandNode<S> node = blueprint.get(getThis());
+        for (TreeBuilder<S, ?> childBuilder : children) {
+            CommandNode<S> childNode = childBuilder.assemble(blueprint);
+            node.addChild(childNode);
+        } return node;
     }
 }
