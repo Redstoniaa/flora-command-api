@@ -1,6 +1,7 @@
 package brigadierextension.api.tree.treebuilder;
 
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
+import com.mojang.brigadier.tree.CommandNode;
 import com.mojang.brigadier.tree.LiteralCommandNode;
 
 /**
@@ -20,6 +21,11 @@ public class LiteralTreeBuilder<S> extends TreeBuilder<S, LiteralTreeBuilder<S>>
 
     @Override
     public LiteralCommandNode<S> build() {
-        return new LiteralCommandNode<>(literal, getNonSimpleCommand(), requirement, getRedirect(), redirectModifier, forks);
+        return build(null);
+    }
+
+    @Override
+    public LiteralCommandNode<S> build(CommandNode<S> redirect) {
+        return new LiteralCommandNode<>(literal, getNonSimpleCommand(), requirement, redirect, redirectModifier, forks);
     }
 }

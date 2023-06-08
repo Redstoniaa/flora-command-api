@@ -13,11 +13,22 @@ public class CommandTreeAssembly {
         redirectKeysFirst(floatingBuilders);
 
         Map<TreeBuilder<S, ?>, CommandNode<S>> blueprint = new HashMap<>();
+        Map<String, CommandNode<S>> redirectKeyMap = new HashMap<>();
+
         for (TreeBuilder<S, ?> treeBuilder : floatingBuilders) {
-            CommandNode<S> node = treeBuilder.build();
+            CommandNode<S> node;
+            if (treeBuilder.redirectTarget != null)
+                node = treeBuilder.build(redirectKeyMap.get(treeBuilder.redirectTarget));
+            else
+                node = treeBuilder.build();
+
             blueprint.put(treeBuilder, node);
-            // handle redirect logic
-        } return rootBuilder.assemble(blueprint);
+
+            if (treeBuilder.redirectionKey != null)
+                redirectKeyMap.put(treeBuilder.redirectionKey, node);
+        }
+
+        return rootBuilder.assemble(blueprint);
     }
 
     /**

@@ -4,6 +4,7 @@ import com.mojang.brigadier.arguments.ArgumentType;
 import com.mojang.brigadier.builder.RequiredArgumentBuilder;
 import com.mojang.brigadier.suggestion.SuggestionProvider;
 import com.mojang.brigadier.tree.ArgumentCommandNode;
+import com.mojang.brigadier.tree.CommandNode;
 
 /**
  * Mirrors Brigadier's {@link RequiredArgumentBuilder}.
@@ -26,6 +27,11 @@ public class ArgumentTreeBuilder<S, T> extends TreeBuilder<S, ArgumentTreeBuilde
 
     @Override
     public ArgumentCommandNode<S, T> build() {
-        return new ArgumentCommandNode<>(name, type, getNonSimpleCommand(), requirement, getRedirect(), redirectModifier, forks, suggestionsProvider);
+        return build(null);
+    }
+
+    @Override
+    public ArgumentCommandNode<S, T> build(CommandNode<S> redirect) {
+        return new ArgumentCommandNode<>(name, type, getNonSimpleCommand(), requirement, redirect, redirectModifier, forks, suggestionsProvider);
     }
 }

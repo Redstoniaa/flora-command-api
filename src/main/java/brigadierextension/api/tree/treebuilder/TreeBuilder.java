@@ -75,12 +75,15 @@ public abstract class TreeBuilder<S, T extends TreeBuilder<S, T>> {
         forks = fork;
         return getThis();
     }
+
     /**
      * Build a {@link CommandNode} from this TreeBuilder.
      * <p>
      * Unlike Brigadier's ArgumentBuilder though, the child nodes won't be added until later on. This is to aid the
      */
     public abstract CommandNode<S> build();
+
+    public abstract CommandNode<S> build(CommandNode<S> redirect);
 
     protected Command<S> getNonSimpleCommand() {
         return context -> {
