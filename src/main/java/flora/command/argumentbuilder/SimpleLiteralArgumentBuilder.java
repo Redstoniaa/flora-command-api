@@ -1,12 +1,12 @@
 package flora.command.argumentbuilder;
 
-import flora.command.tree.simplecommands.SimpleCommand;
+import flora.command.builder.exit.CommandExit;
 import com.mojang.brigadier.builder.ArgumentBuilder;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.tree.CommandNode;
 import com.mojang.brigadier.tree.LiteralCommandNode;
 
-import static flora.command.tree.simplecommands.SimpleCommandManager.*;
+import static flora.command.builder.exit.SimpleCommandManager.*;
 
 /**
  * Implementation of {@link LiteralArgumentBuilder} with methods specific to the Simple Commands system of this API.
@@ -38,7 +38,7 @@ public class SimpleLiteralArgumentBuilder<S>
     }
 
     @Override
-    public SimpleLiteralArgumentBuilder<S> executes(final SimpleCommand<S> simpleCommand) {
+    public SimpleLiteralArgumentBuilder<S> executes(final CommandExit<S> simpleCommand) {
         return this.executes(fromSimple(simpleCommand));
     }
 

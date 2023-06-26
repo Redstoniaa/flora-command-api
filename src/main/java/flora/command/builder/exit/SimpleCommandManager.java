@@ -1,11 +1,11 @@
-package flora.command.tree.simplecommands;
+package flora.command.builder.exit;
 
-import flora.command.tree.arguments.CommandArgument;
+import flora.command.builder.argument.CommandArgument;
 import flora.command.argumentbuilder.SimpleLiteralArgumentBuilder;
 import flora.command.argumentbuilder.SimpleRequiredArgumentBuilder;
-import flora.command.tree.simplecommands.providers.ClientCommandContextProvider;
-import flora.command.tree.simplecommands.providers.ServerCommandContextProvider;
-import flora.command.tree.simplecommands.providers.UniversalCommandContextProvider;
+import flora.command.builder.exit.providers.ClientCommandContextProvider;
+import flora.command.builder.exit.providers.ServerCommandContextProvider;
+import flora.command.builder.exit.providers.UniversalCommandContextProvider;
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.context.CommandContext;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
@@ -50,7 +50,7 @@ public class SimpleCommandManager {
         ClientCommandContextProvider.clearContext();
     }
 
-    public static <S> Command<S> fromSimple(SimpleCommand<S> simpleCommand) {
+    public static <S> Command<S> fromSimple(CommandExit<S> simpleCommand) {
         return context -> {
             setProviderContext(context);
             simpleCommand.run();

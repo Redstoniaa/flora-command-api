@@ -1,6 +1,6 @@
-package flora.command.tree.treebuilder;
+package flora.command.builder;
 
-import flora.command.tree.simplecommands.SimpleCommand;
+import flora.command.builder.exit.CommandExit;
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.RedirectModifier;
 import com.mojang.brigadier.SingleRedirectModifier;
@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
 
-import static flora.command.tree.simplecommands.SimpleCommandManager.*;
+import static flora.command.builder.exit.SimpleCommandManager.*;
 
 /**
  * Mirrors Brigadier's {@link ArgumentBuilder}, while also adding useful features to make life easier defining
@@ -21,7 +21,7 @@ import static flora.command.tree.simplecommands.SimpleCommandManager.*;
  */
 public abstract class TreeBuilder<S, T extends TreeBuilder<S, T>> {
     public List<TreeBuilder<S, ?>> children = new ArrayList<>();
-    public SimpleCommand<S> command;
+    public CommandExit<S> command;
     public Predicate<S> requirement = s -> true;
     public String redirectionKey = null;
     public String redirectTarget = null;
@@ -36,7 +36,7 @@ public abstract class TreeBuilder<S, T extends TreeBuilder<S, T>> {
         return getThis();
     }
 
-    public T executes(final SimpleCommand<S> command) {
+    public T executes(final CommandExit<S> command) {
         this.command = command;
         return getThis();
     }

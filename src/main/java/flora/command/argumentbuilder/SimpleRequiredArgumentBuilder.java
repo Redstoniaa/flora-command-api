@@ -1,14 +1,14 @@
 package flora.command.argumentbuilder;
 
-import flora.command.tree.arguments.CommandArgument;
-import flora.command.tree.simplecommands.SimpleCommand;
+import flora.command.builder.argument.CommandArgument;
+import flora.command.builder.exit.CommandExit;
 import com.mojang.brigadier.arguments.ArgumentType;
 import com.mojang.brigadier.builder.ArgumentBuilder;
 import com.mojang.brigadier.suggestion.SuggestionProvider;
 import com.mojang.brigadier.tree.ArgumentCommandNode;
 import com.mojang.brigadier.tree.CommandNode;
 
-import static flora.command.tree.simplecommands.SimpleCommandManager.fromSimple;
+import static flora.command.builder.exit.SimpleCommandManager.fromSimple;
 
 /**
  * Implementation of {@link com.mojang.brigadier.builder.RequiredArgumentBuilder} with methods specific to the Simple
@@ -45,7 +45,7 @@ public class SimpleRequiredArgumentBuilder<S, T>
     }
 
     @Override
-    public SimpleRequiredArgumentBuilder<S, T> executes(SimpleCommand<S> simpleCommand) {
+    public SimpleRequiredArgumentBuilder<S, T> executes(CommandExit<S> simpleCommand) {
         return this.executes(fromSimple(simpleCommand));
     }
 

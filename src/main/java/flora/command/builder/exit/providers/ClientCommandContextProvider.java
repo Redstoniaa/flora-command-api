@@ -1,4 +1,4 @@
-package flora.command.tree.simplecommands.providers;
+package flora.command.builder.exit.providers;
 
 import com.mojang.brigadier.context.CommandContext;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;

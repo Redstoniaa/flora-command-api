@@ -1,6 +1,5 @@
-package flora.command.tree;
+package flora.command.builder;
 
-import flora.command.tree.treebuilder.TreeBuilder;
 import com.mojang.brigadier.tree.CommandNode;
 
 import java.util.HashMap;
