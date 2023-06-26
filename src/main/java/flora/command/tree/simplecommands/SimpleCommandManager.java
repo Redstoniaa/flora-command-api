@@ -1,11 +1,11 @@
-package brigadierextension.api.tree.simplecommands;
+package flora.command.tree.simplecommands;
 
-import brigadierextension.api.tree.arguments.CommandArgument;
-import brigadierextension.api.argumentbuilder.SimpleLiteralArgumentBuilder;
-import brigadierextension.api.argumentbuilder.SimpleRequiredArgumentBuilder;
-import brigadierextension.api.tree.simplecommands.providers.ClientCommandContextProvider;
-import brigadierextension.api.tree.simplecommands.providers.ServerCommandContextProvider;
-import brigadierextension.api.tree.simplecommands.providers.UniversalCommandContextProvider;
+import flora.command.tree.arguments.CommandArgument;
+import flora.command.argumentbuilder.SimpleLiteralArgumentBuilder;
+import flora.command.argumentbuilder.SimpleRequiredArgumentBuilder;
+import flora.command.tree.simplecommands.providers.ClientCommandContextProvider;
+import flora.command.tree.simplecommands.providers.ServerCommandContextProvider;
+import flora.command.tree.simplecommands.providers.UniversalCommandContextProvider;
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.context.CommandContext;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;

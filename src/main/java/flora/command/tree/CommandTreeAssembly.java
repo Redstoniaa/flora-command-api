@@ -1,6 +1,6 @@
-package brigadierextension.api.tree;
+package flora.command.tree;
 
-import brigadierextension.api.tree.treebuilder.TreeBuilder;
+import flora.command.tree.treebuilder.TreeBuilder;
 import com.mojang.brigadier.tree.CommandNode;
 
 import java.util.HashMap;

@@ -1,12 +1,12 @@
-package brigadierextension.api.argumentbuilder;
+package flora.command.argumentbuilder;
 
-import brigadierextension.api.tree.simplecommands.SimpleCommand;
+import flora.command.tree.simplecommands.SimpleCommand;
 import com.mojang.brigadier.builder.ArgumentBuilder;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.tree.CommandNode;
 import com.mojang.brigadier.tree.LiteralCommandNode;
 
-import static brigadierextension.api.tree.simplecommands.SimpleCommandManager.*;
+import static flora.command.tree.simplecommands.SimpleCommandManager.*;
 
 /**
  * Implementation of {@link LiteralArgumentBuilder} with methods specific to the Simple Commands system of this API.

@@ -1,4 +1,4 @@
-package brigadierextension.api.tree.simplecommands.providers;
+package flora.command.tree.simplecommands.providers;
 
 import com.mojang.brigadier.context.CommandContext;
 

@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "id": "brigadier-extension-api",
+  "id": "flora-command-api",
   "version": "${version}",
 
-  "name": "Brigadier Extension API",
+  "name": "Flora Command API",
   "description": "Extension to the Brigadier command library, making it easier to create commands, but harder for everyone else who has to download yet another dependency mod.",
   "authors": [
   ],
@@ -12,16 +12,16 @@
   },
 
   "license": "MIT",
-  "icon": "assets/brigadierextension/icon.png",
+  "icon": "assets/flora/icon.png",
 
   "environment": "*",
   "entrypoints": {
     "main": [
-      "brigadierextension.BrigadierExtensionAPI"
+      "flora.FloraCommandAPI"
     ]
   },
   "mixins": [
-    "brigadierextension.mixins.json"
+    "flora.mixins.json"
   ],
 
   "depends": {

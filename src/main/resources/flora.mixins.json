@@ -1,7 +1,7 @@
 {
   "required": true,
   "minVersion": "0.8",
-  "package": "brigadierextension.mixin",
+  "package": "flora.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
   ],

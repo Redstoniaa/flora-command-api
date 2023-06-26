@@ -1,6 +1,6 @@
-package brigadierextension.api.tree.treebuilder;
+package flora.command.tree.treebuilder;
 
-import brigadierextension.api.tree.simplecommands.SimpleCommand;
+import flora.command.tree.simplecommands.SimpleCommand;
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.RedirectModifier;
 import com.mojang.brigadier.SingleRedirectModifier;
@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
 
-import static brigadierextension.api.tree.simplecommands.SimpleCommandManager.*;
+import static flora.command.tree.simplecommands.SimpleCommandManager.*;
 
 /**
  * Mirrors Brigadier's {@link ArgumentBuilder}, while also adding useful features to make life easier defining
