@@ -7,7 +7,7 @@ public interface CommandExit<S> {
     void run() throws CommandSyntaxException;
 
     /**
-     * @return A {@link FeedbackCommandExit} that runs the code defined here, and then returns 1;
+     * @return A {@link FeedbackCommandExit} that runs the code defined here, and then returns 1.
      */
     default FeedbackCommandExit<S> getFeedbackVersion() {
         return () -> {

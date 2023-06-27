@@ -5,7 +5,7 @@ import com.mojang.brigadier.arguments.ArgumentType;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.suggestion.SuggestionProvider;
 
-import static flora.command.builder.exit.providers.UniversalCommandContextProvider.*;
+import static flora.command.builder.exit.provider.UniversalContextProvider.*;
 
 public class CommandArgument<S, T> {
     public final String identifier;
