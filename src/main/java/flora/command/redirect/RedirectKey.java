@@ -1,9 +1,9 @@
 package flora.command.redirect;
 
-public class RedirectionKey {
+public class RedirectKey {
     public String key;
 
-    public RedirectionKey(String key) {
+    public RedirectKey(String key) {
         this.key = key;
     }
 }
