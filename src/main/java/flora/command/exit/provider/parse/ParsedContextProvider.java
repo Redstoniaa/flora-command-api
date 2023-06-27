@@ -1,4 +1,4 @@
-package flora.command.builder.exit.provider.parse;
+package flora.command.exit.provider.parse;
 
 import com.mojang.brigadier.context.CommandContext;
 

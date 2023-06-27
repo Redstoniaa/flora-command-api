@@ -1,11 +1,10 @@
-package flora.command.builder.argument;
+package flora.command.argument;
 
-import flora.command.argumentbuilder.SimpleRequiredArgumentBuilder;
 import com.mojang.brigadier.arguments.ArgumentType;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.suggestion.SuggestionProvider;
 
-import static flora.command.builder.exit.provider.UniversalContextProvider.*;
+import static flora.command.exit.provider.UniversalContextProvider.*;
 
 public class CommandArgument<S, T> {
     public final String identifier;
@@ -30,9 +29,5 @@ public class CommandArgument<S, T> {
 
     public T get(CommandContext<?> ctx) {
         return ctx.getArgument(identifier, outputType);
-    }
-
-    public SimpleRequiredArgumentBuilder<S, T> asSimpleBuilder() {
-        return SimpleRequiredArgumentBuilder.argument(identifier, argumentType, suggestionProvider);
     }
 }

@@ -1,4 +1,4 @@
-package flora.command.builder.exit;
+package flora.command.exit;
 
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 
