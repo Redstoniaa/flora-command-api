@@ -21,28 +21,23 @@ import java.util.function.Predicate;
  */
 public abstract class TreeBuilder<S, T extends TreeBuilder<S, T>> {
     public List<TreeBuilder<S, ?>> children = new ArrayList<>();
-    //region exits - command, exit
-    public Command<S> command;
     public FeedbackCommandExit<S> exit;
-    //endregion
     public Predicate<S> requirement = s -> true;
-    //region redirects - redirectFrom, redirectTo, redirectTarget, redirectModifier, forks
     public RedirectKey redirectFrom;
     public RedirectKey redirectTo;
-    public CommandNode<S> redirectTarget;
     public RedirectModifier<S> redirectModifier = null;
     public boolean forks;
-    //endregion
+
+
 
     protected abstract T getThis();
 
     public T then(final TreeBuilder<S, ?> child) {
-        if (redirectTo != null)
+        if (redirectTo != null || redirectTarget != null)
             throw new IllegalStateException("Cannot add children to a redirected node");
         return getThis();
     }
 
-    //region exit-related methods - executes()
     public T executes(final CommandExit<S> exit) {
         return executes(exit.getFeedbackVersion());
     }
@@ -52,71 +47,40 @@ public abstract class TreeBuilder<S, T extends TreeBuilder<S, T>> {
         return getThis();
     }
 
-    public T executes(final Command<S> command) {
-        this.command = command;
-        return getThis();
-    }
-    //endregion
-
     public T requires(final Predicate<S> requirement) {
         this.requirement = requirement;
         return getThis();
     }
 
-    //region redirect-related methods - redirectTo(), fork(), redirectFrom(), forward()
     public T redirectTo(final RedirectKey key) {
-        return forward(key, null, false);
+        return forwardToKey(key, null, false);
     }
 
     public T redirectTo(final RedirectKey key, final SingleRedirectModifier<S> modifier) {
-        return forward(key, modifier == null ? null : o -> Collections.singleton(modifier.apply(o)), false);
-    }
-
-    public T redirectTo(final CommandNode<S> target) {
-        return forward(target, null, false);
-    }
-
-    public T redirectTo(final CommandNode<S> target, final SingleRedirectModifier<S> modifier) {
-        return forward(target, modifier == null ? null : o -> Collections.singleton(modifier.apply(o)), false);
+        return forwardToKey(key, modifier == null ? null : o -> Collections.singleton(modifier.apply(o)), false);
     }
 
     public T fork(final RedirectKey key, final RedirectModifier<S> modifier) {
-        return forward(key, modifier, true);
-    }
-
-    public T fork(final CommandNode<S> node, final RedirectModifier<S> modifier) {
-        return forward(node, modifier, true);
+        return forwardToKey(key, modifier, true);
     }
 
     public T redirectFrom(RedirectKey id) {
         if (redirectTo != null)
-            throw new IllegalStateException("No point");
+            throw new IllegalStateException("Cannot redirect from a node that redirects to another");
         redirectFrom = id;
         return getThis();
     }
 
-    public T forward(final RedirectKey key, final RedirectModifier<S> modifier, final boolean fork) {
+    public T forwardToKey(final RedirectKey key, final RedirectModifier<S> modifier, final boolean fork) {
         if (!children.isEmpty())
             throw new IllegalStateException("Cannot forward a node with children");
         else if (redirectFrom != null)
-            throw new IllegalStateException("No point redirecting a node that is already redirected to");
+            throw new IllegalStateException("Cannot forward a node that is targeted by redirects");
         redirectTo = key;
         redirectModifier = modifier;
         forks = fork;
         return getThis();
     }
-
-    public T forward(final CommandNode<S> target, final RedirectModifier<S> modifier, final boolean fork) {
-        if (!children.isEmpty())
-            throw new IllegalStateException("Cannot forward a node with children");
-        else if (redirectFrom != null)
-            throw new IllegalStateException("No point redirecting a node that is already redirected to");
-        redirectTarget = target;
-        redirectModifier = modifier;
-        forks = fork;
-        return getThis();
-    }
-    //endregion
 
     /**
      * Build a {@link CommandNode} from this TreeBuilder.
@@ -163,4 +127,35 @@ public abstract class TreeBuilder<S, T extends TreeBuilder<S, T>> {
             node.addChild(childNode);
         } return node;
     }
+
+    //region for Brigadier-style usage
+    public Command<S> command;
+    public CommandNode<S> redirectTarget;
+
+    public T executes(final Command<S> command) {
+        this.command = command;
+        return getThis();
+    }
+
+    public T redirectTo(final CommandNode<S> target) {
+        return forwardToNode(target, null, false);
+    }
+
+    public T redirectTo(final CommandNode<S> target, final SingleRedirectModifier<S> modifier) {
+        return forwardToNode(target, modifier == null ? null : o -> Collections.singleton(modifier.apply(o)), false);
+    }
+
+    public T fork(final CommandNode<S> target, final RedirectModifier<S> modifier) {
+        return forwardToNode(target, modifier, true);
+    }
+
+    public T forwardToNode(final CommandNode<S> target, final RedirectModifier<S> modifier, final boolean fork) {
+        if (!children.isEmpty())
+            throw new IllegalStateException("Cannot forward a node with children");
+        redirectTarget = target;
+        redirectModifier = modifier;
+        forks = fork;
+        return getThis();
+    }
+    //endregion
 }
