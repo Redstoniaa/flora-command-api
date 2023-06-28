@@ -1,5 +1,6 @@
 package flora;
 
+import flora.command.FloraCommandManager;
 import net.fabricmc.api.ModInitializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,6 +12,6 @@ public class FloraCommandAPI
 
 	@Override
 	public void onInitialize() {
-		// do stuff!
+		FloraCommandManager.init();
 	}
 }
