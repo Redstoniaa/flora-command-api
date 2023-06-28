@@ -26,11 +26,6 @@ public class ArgumentTreeBuilder<S, T> extends TreeBuilder<S, ArgumentTreeBuilde
     }
 
     @Override
-    public ArgumentCommandNode<S, T> build() {
-        return build(null);
-    }
-
-    @Override
     public ArgumentCommandNode<S, T> build(CommandNode<S> redirect) {
         return new ArgumentCommandNode<>(name, type, getNonSimpleCommand(), requirement, redirect, redirectModifier, forks, suggestionsProvider);
     }

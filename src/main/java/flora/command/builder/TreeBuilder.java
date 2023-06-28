@@ -9,10 +9,7 @@ import com.mojang.brigadier.tree.CommandNode;
 import flora.command.exit.FeedbackCommandExit;
 import flora.command.redirect.RedirectKey;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Predicate;
 
 /**
@@ -82,50 +79,63 @@ public abstract class TreeBuilder<S, T extends TreeBuilder<S, T>> {
         return getThis();
     }
 
-    /**
-     * Build a {@link CommandNode} from this TreeBuilder.
-     * <p>
-     * Unlike Brigadier's ArgumentBuilder though, the child nodes won't be added until later on. This is to aid the
-     */
-    public abstract CommandNode<S> build();
+    public CommandNode<S> build() {
+        return build(null);
+    }
 
     public abstract CommandNode<S> build(CommandNode<S> redirect);
 
-//    protected Command<S> getNonSimpleCommand() {
-//        return context -> {
-//            setProviderContext(context);
-//            command.run();
-//            clearProviderContext();
-//            return 1;
-//        };
-//    }
-
-    protected Command<S> getNonSimpleCommand() {
-        return null;
+    public CommandNode<S> buildTree() {
+        Map<RedirectKey, CommandNode<S>> redirectMap = getNodesForRedirectReference();
+        return this.buildStep(redirectMap);
     }
 
-    protected CommandNode<S> getRedirect() {
-        // put in logic for this later
-        return null;
+    private CommandNode<S> buildStep(Map<RedirectKey, CommandNode<S>> redirectMap) {
+        CommandNode<S> target = null;
+        if (redirectTo != null)
+            target = redirectMap.get(redirectTo);
+        CommandNode<S> node = build(target);
+
+        for (TreeBuilder<S, ?> child : children) {
+            if (child.redirectFrom != null) {
+                // node already exists because it is a reference
+                CommandNode<S> specialNode = redirectMap.get(child.redirectFrom);
+                for (TreeBuilder<S, ?> specialChild : child.children)
+                    specialNode.addChild(specialChild.buildStep(redirectMap));
+                node.addChild(specialNode);
+            } else {
+                node.addChild(child.buildStep(redirectMap));
+            }
+        }
+
+        return node;
     }
 
-    /**
-     * @return A list of all the children (and children of children, etc.) of this builder.
-     */
-    public List<TreeBuilder<S, ?>> collectChildren() {
+    private Map<RedirectKey, CommandNode<S>> getNodesForRedirectReference() {
+        List<TreeBuilder<S, ?>> referenceBuilders = collectAllMatching(b -> b.redirectFrom != null);
+        Map<RedirectKey, CommandNode<S>> redirectMap = new HashMap<>();
+
+        for (TreeBuilder<S, ?> builder : referenceBuilders) {
+            redirectMap.put(builder.redirectFrom, builder.build());
+        } return redirectMap;
+    }
+
+    private List<TreeBuilder<S, ?>> collectAll() {
         List<TreeBuilder<S, ?>> children = new ArrayList<>();
         children.add(this);
         for (TreeBuilder<S, ?> child : this.children)
-            children.addAll(child.collectChildren());
+            children.addAll(child.collectAll());
         return children;
     }
 
-    public CommandNode<S> assemble(Map<TreeBuilder<S, ?>, CommandNode<S>> blueprint) {
-        CommandNode<S> node = blueprint.get(getThis());
-        for (TreeBuilder<S, ?> childBuilder : children) {
-            CommandNode<S> childNode = childBuilder.assemble(blueprint);
-            node.addChild(childNode);
-        } return node;
+    private List<TreeBuilder<S, ?>> collectAllMatching(Predicate<TreeBuilder<S, ?>> condition) {
+        List<TreeBuilder<S, ?>> all = collectAll();
+        List<TreeBuilder<S, ?>> match = new ArrayList<>();
+        for (TreeBuilder<S, ?> builder : all) {
+            if (condition.test(builder)) {
+                match.add(builder);
+            }
+        } return match;
     }
 
     //region for Brigadier-style usage
