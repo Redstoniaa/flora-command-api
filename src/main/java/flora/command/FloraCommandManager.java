@@ -1,37 +1,46 @@
 package flora.command;
 
-import flora.FloraCommandAPI;
+import com.mojang.brigadier.tree.RootCommandNode;
 import flora.command.builder.LiteralTreeBuilder;
-import flora.command.builder.TreeBuilder;
-import flora.command.register.FloraCommandRegistration;
+import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
+import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class FloraCommandManager {
-    public static List<FloraCommandRegistration<ServerCommandSource>> serverRegistrations = new ArrayList<>();
-    public static List<FloraCommandRegistration<FabricClientCommandSource>> clientRegistrations = new ArrayList<>();
+    public static List<FloraCommand<ServerCommandSource>> serverCommands = new ArrayList<>();
+    public static List<FloraCommand<FabricClientCommandSource>> clientCommands = new ArrayList<>();
 
     public static void init() {
-        CommandRegistrationCallback.EVENT.register(((dispatcher, registryAccess, environment) -> {
-            for (FloraCommandRegistration<ServerCommandSource> registration : serverRegistrations) {
-                TreeBuilder<ServerCommandSource, LiteralTreeBuilder<ServerCommandSource>> commandRoot =
-                        registration.register(dispatcher, registryAccess, environment);
-                dispatcher.getRoot().addChild(commandRoot.buildTree());
+        CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> {
+            RootCommandNode<ServerCommandSource> rootNode = dispatcher.getRoot();
+            for (FloraCommand<ServerCommandSource> command : serverCommands) {
+                LiteralTreeBuilder<ServerCommandSource> builder = command.getBuilder(dispatcher, registryAccess, environment);
+                // manage any extensions
+                rootNode.addChild(builder.buildTree());
             }
-        }));
+        });
+
+        ClientCommandRegistrationCallback.EVENT.register((dispatcher, registryAccess) -> {
+            RootCommandNode<FabricClientCommandSource> rootNode = dispatcher.getRoot();
+            for (FloraCommand<FabricClientCommandSource> command : clientCommands) {
+                LiteralTreeBuilder<FabricClientCommandSource> builder = command.getBuilder(dispatcher, registryAccess, CommandManager.RegistrationEnvironment.INTEGRATED);
+                // manage any extensions
+                rootNode.addChild(builder.buildTree());
+            }
+        });
     }
 
-    public static void registerServer(FloraCommandRegistration<ServerCommandSource> registration) {
-        serverRegistrations.add(registration);
+    public static void registerServerCommands(FloraCommand<ServerCommandSource>... commands) {
+        serverCommands.addAll(Arrays.asList(commands));
     }
 
-    public static void registerClient(FloraCommandRegistration<FabricClientCommandSource> registration) {
-        clientRegistrations.add(registration);
+    public static void registerClientCommands(FloraCommand<FabricClientCommandSource>... commands) {
+        clientCommands.addAll(Arrays.asList(commands));
     }
-
-
 }
