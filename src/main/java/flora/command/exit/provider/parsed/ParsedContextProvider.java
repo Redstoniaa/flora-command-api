@@ -3,7 +3,6 @@ package flora.command.exit.provider.parsed;
 import com.mojang.brigadier.context.CommandContext;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 public class ParsedContextProvider<S, T> {
@@ -28,10 +27,10 @@ public class ParsedContextProvider<S, T> {
         contextSetter.setAccessible(true);
     }
 
-    public void setContext(CommandContext<S> context) throws InvocationTargetException {
+    public void setContext(CommandContext<S> context) {
         try {
             contextSetter.invoke(null, context);
-        } catch (IllegalAccessException ignored) {}
+        } catch (Exception ignored) {}
     }
 
     public void clearContext() {
