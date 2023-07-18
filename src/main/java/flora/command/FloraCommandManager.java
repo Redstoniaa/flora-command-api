@@ -1,11 +1,10 @@
 package flora.command;
 
 import com.mojang.brigadier.tree.RootCommandNode;
+import flora.command.builder.CommandBuildInfo;
 import flora.command.builder.LiteralTreeBuilder;
-import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
-import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
 
 import java.util.ArrayList;
@@ -21,19 +20,24 @@ public class FloraCommandManager {
             RootCommandNode<ServerCommandSource> rootNode = dispatcher.getRoot();
             for (FloraCommand<ServerCommandSource> command : serverCommands) {
                 LiteralTreeBuilder<ServerCommandSource> builder = command.getBuilder(dispatcher, registryAccess, environment);
+
+                CommandBuildInfo<ServerCommandSource> info = new CommandBuildInfo<>();
+                info.contextProviders = command.getParsedContextProviders();
+
                 // manage any extensions
-                rootNode.addChild(builder.buildTree());
+
+                rootNode.addChild(builder.buildTree(info));
             }
         });
 
-        ClientCommandRegistrationCallback.EVENT.register((dispatcher, registryAccess) -> {
-            RootCommandNode<FabricClientCommandSource> rootNode = dispatcher.getRoot();
-            for (FloraCommand<FabricClientCommandSource> command : clientCommands) {
-                LiteralTreeBuilder<FabricClientCommandSource> builder = command.getBuilder(dispatcher, registryAccess, CommandManager.RegistrationEnvironment.INTEGRATED);
-                // manage any extensions
-                rootNode.addChild(builder.buildTree());
-            }
-        });
+//        ClientCommandRegistrationCallback.EVENT.register((dispatcher, registryAccess) -> {
+//            RootCommandNode<FabricClientCommandSource> rootNode = dispatcher.getRoot();
+//            for (FloraCommand<FabricClientCommandSource> command : clientCommands) {
+//                LiteralTreeBuilder<FabricClientCommandSource> builder = command.getBuilder(dispatcher, registryAccess, CommandManager.RegistrationEnvironment.INTEGRATED);
+//                // manage any extensions
+//                rootNode.addChild(builder.buildTree(command));
+//            }
+//        });
     }
 
     public static void registerServerCommands(FloraCommand<ServerCommandSource>... commands) {

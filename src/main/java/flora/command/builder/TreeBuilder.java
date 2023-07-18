@@ -25,8 +25,6 @@ public abstract class TreeBuilder<S, T extends TreeBuilder<S, T>> {
     public RedirectModifier<S> redirectModifier = null;
     public boolean forks;
 
-
-
     protected abstract T getThis();
 
     public T then(final TreeBuilder<S, ?> child) {
@@ -79,45 +77,45 @@ public abstract class TreeBuilder<S, T extends TreeBuilder<S, T>> {
         return getThis();
     }
 
-    public CommandNode<S> build() {
-        return build(null);
+    /**
+     * Builds the entire command tree - this builder and all children of it.
+     * @return The resulting command node.
+     */
+    public CommandNode<S> buildTree(CommandBuildInfo<S> info) {
+        populateBuildInfo(info);
+        return buildStep(info);
     }
 
-    public abstract CommandNode<S> build(CommandNode<S> redirect);
+    public abstract CommandNode<S> build(CommandBuildInfo<S> info);
 
-    public CommandNode<S> buildTree() {
-        Map<RedirectKey, CommandNode<S>> redirectMap = getNodesForRedirectReference();
-        return this.buildStep(redirectMap);
-    }
+    private CommandNode<S> buildStep(CommandBuildInfo<S> info) {
+        // The node representing this builder. If this node is redirected to, the node already
+        // exists, so it just gets that existing node. Otherwise, it's built here.
+        CommandNode<S> node = redirectFrom == null
+                ? build(info)
+                : info.redirectMap.get(redirectFrom);
 
-    private CommandNode<S> buildStep(Map<RedirectKey, CommandNode<S>> redirectMap) {
-        CommandNode<S> target = null;
-        if (redirectTo != null)
-            target = redirectMap.get(redirectTo);
-        CommandNode<S> node = build(target);
-
-        for (TreeBuilder<S, ?> child : children) {
-            if (child.redirectFrom != null) {
-                // node already exists because it is a reference
-                CommandNode<S> specialNode = redirectMap.get(child.redirectFrom);
-                for (TreeBuilder<S, ?> specialChild : child.children)
-                    specialNode.addChild(specialChild.buildStep(redirectMap));
-                node.addChild(specialNode);
-            } else {
-                node.addChild(child.buildStep(redirectMap));
+        // Adding children. This is all skipped if this node redirects somewhere
+        // else, cause those "redirection" nodes can't have children anyway.
+        if (redirectTo == null) {
+            for (TreeBuilder<S, ?> child : children) {
+                node.addChild(child.buildStep(info));
             }
         }
 
+        // Return the completed node representing this builder.
         return node;
     }
 
-    private Map<RedirectKey, CommandNode<S>> getNodesForRedirectReference() {
+    private void populateBuildInfo(CommandBuildInfo<S> info) {
         List<TreeBuilder<S, ?>> referenceBuilders = collectAllMatching(b -> b.redirectFrom != null);
         Map<RedirectKey, CommandNode<S>> redirectMap = new HashMap<>();
 
         for (TreeBuilder<S, ?> builder : referenceBuilders) {
-            redirectMap.put(builder.redirectFrom, builder.build());
-        } return redirectMap;
+            redirectMap.put(builder.redirectFrom, builder.build(info));
+        }
+
+        info.redirectMap = redirectMap;
     }
 
     private List<TreeBuilder<S, ?>> collectAll() {
@@ -130,12 +128,12 @@ public abstract class TreeBuilder<S, T extends TreeBuilder<S, T>> {
 
     private List<TreeBuilder<S, ?>> collectAllMatching(Predicate<TreeBuilder<S, ?>> condition) {
         List<TreeBuilder<S, ?>> all = collectAll();
-        List<TreeBuilder<S, ?>> match = new ArrayList<>();
+        List<TreeBuilder<S, ?>> matches = new ArrayList<>();
         for (TreeBuilder<S, ?> builder : all) {
             if (condition.test(builder)) {
-                match.add(builder);
+                matches.add(builder);
             }
-        } return match;
+        } return matches;
     }
 
     //region for Brigadier-style usage

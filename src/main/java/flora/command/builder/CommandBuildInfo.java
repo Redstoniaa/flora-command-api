@@ -1,9 +1,10 @@
 package flora.command.builder;
 
 import com.mojang.brigadier.tree.CommandNode;
-import flora.command.exit.provider.parse.ParsedContextProvider;
+import flora.command.exit.provider.parsed.ParsedContextProvider;
 import flora.command.redirect.RedirectKey;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -11,5 +12,5 @@ import java.util.Map;
  */
 public class CommandBuildInfo<S> {
     public Map<RedirectKey, CommandNode<S>> redirectMap;
-    public ParsedContextProvider<S, ?> contextProvider;
+    public List<ParsedContextProvider<S, ?>> contextProviders;
 }
