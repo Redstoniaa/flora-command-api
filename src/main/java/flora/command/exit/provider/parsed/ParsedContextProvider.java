@@ -10,14 +10,14 @@ public class ParsedContextProvider<S, T> {
     public final Field[] contextFields;
     public final Method contextSetter;
 
-    public ParsedContextProvider(Class<T> baseClass) throws InvalidContextProviderClassException {
+    public ParsedContextProvider(Class<T> baseClass) {
         try {
             this.baseClass = baseClass;
             this.contextFields = baseClass.getFields();
             this.contextSetter = baseClass.getDeclaredMethod("setContext", CommandContext.class);
             setEverythingAccessible();
-        } catch (NoSuchMethodException exception) {
-            throw new InvalidContextProviderClassException();
+        } catch (Exception e) {
+            throw new RuntimeException("[FLORA] Context provider %s is invalid.".formatted(baseClass.getName()));
         }
     }
 

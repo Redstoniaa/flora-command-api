@@ -2,7 +2,7 @@ package flora.command;
 
 import com.mojang.brigadier.CommandDispatcher;
 import flora.command.builder.LiteralTreeBuilder;
-import flora.command.exit.provider.parsed.InvalidContextProviderClassException;
+import flora.command.exit.provider.UniversalContextProvider;
 import flora.command.exit.provider.parsed.ParsedContextProvider;
 import net.minecraft.command.CommandRegistryAccess;
 import net.minecraft.server.command.CommandManager.RegistrationEnvironment;
@@ -26,6 +26,8 @@ public abstract class FloraCommand<S> {
 
     /**
      * Gets the context provider(s) that will be used for this command in the command exits.
+     * <p>
+     * Note: you don't need to specify {@link UniversalContextProvider}, it is automatically used.
      */
     public List<Class<?>> getContextProviders() {
         return new ArrayList<>();
@@ -36,12 +38,7 @@ public abstract class FloraCommand<S> {
         List<ParsedContextProvider<S, ?>> parsedProviders = new ArrayList<>();
 
         for (Class<?> provider : rawProviders) {
-            try {
-                parsedProviders.add(new ParsedContextProvider<>(provider));
-            } catch (InvalidContextProviderClassException exception) {
-                // class specified as context provider is invalid.
-                exception.printStackTrace();
-            }
+            parsedProviders.add(new ParsedContextProvider<>(provider));
         }
 
         return parsedProviders;

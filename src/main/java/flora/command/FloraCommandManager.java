@@ -3,6 +3,8 @@ package flora.command;
 import com.mojang.brigadier.tree.RootCommandNode;
 import flora.command.builder.CommandBuildInfo;
 import flora.command.builder.LiteralTreeBuilder;
+import flora.command.exit.provider.UniversalContextProvider;
+import flora.command.exit.provider.parsed.ParsedContextProvider;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.minecraft.server.command.ServerCommandSource;
@@ -14,6 +16,8 @@ import java.util.List;
 public class FloraCommandManager {
     public static List<FloraCommand<ServerCommandSource>> serverCommands = new ArrayList<>();
     public static List<FloraCommand<FabricClientCommandSource>> clientCommands = new ArrayList<>();
+
+    public static final ParsedContextProvider<?, UniversalContextProvider> UNIVERSAL_CONTEXT_PROVIDER = new ParsedContextProvider<>(UniversalContextProvider.class);
 
     public static void init() {
         CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> {
