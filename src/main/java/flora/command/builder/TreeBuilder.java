@@ -1,6 +1,8 @@
 package flora.command.builder;
 
 import com.mojang.brigadier.Command;
+import flora.command.builder.property.ExitProperty;
+import flora.command.builder.property.RedirectToProperty;
 import flora.command.exit.CommandExit;
 import com.mojang.brigadier.RedirectModifier;
 import com.mojang.brigadier.SingleRedirectModifier;
@@ -18,19 +20,17 @@ import java.util.function.Predicate;
  */
 public abstract class TreeBuilder<S, T extends TreeBuilder<S, T>> {
     public List<TreeBuilder<S, ?>> children = new ArrayList<>();
-    public FeedbackCommandExit<S> exit;
-    public Command<S> command;
+    public ExitProperty<S> exit;
     public Predicate<S> requirement = s -> true;
     public RedirectKey redirectFrom;
-    public RedirectKey redirectTo;
-    public CommandNode<S> redirectTarget;
+    public RedirectToProperty<S> redirectTo;
     public RedirectModifier<S> redirectModifier = null;
     public boolean forks;
 
     protected abstract T getThis();
 
     public T then(final TreeBuilder<S, ?> child) {
-        if (redirectTo != null || redirectTarget != null)
+        if (redirectTo.isSet())
             throw new IllegalStateException("Cannot add children to a redirected node.");
         return getThis();
     }
@@ -40,14 +40,12 @@ public abstract class TreeBuilder<S, T extends TreeBuilder<S, T>> {
     }
 
     public T executes(final FeedbackCommandExit<S> exit) {
-        this.command = null;
-        this.exit = exit;
+        this.exit.setFloraValue(exit);
         return getThis();
     }
 
     public T executes(final Command<S> command) {
-        this.exit = null;
-        this.command = command;
+        exit.setBrigadierValue(command);
         return getThis();
     }
 
@@ -68,10 +66,10 @@ public abstract class TreeBuilder<S, T extends TreeBuilder<S, T>> {
         return forwardToKey(key, modifier, true);
     }
 
-    public T redirectFrom(RedirectKey id) {
-        if (redirectTo != null)
+    public T redirectFrom(RedirectKey key) {
+        if (redirectTo.isSet())
             throw new IllegalStateException("Cannot redirect from a node that redirects to another.");
-        redirectFrom = id;
+        redirectFrom = key;
         return getThis();
     }
 
@@ -80,8 +78,7 @@ public abstract class TreeBuilder<S, T extends TreeBuilder<S, T>> {
             throw new IllegalStateException("Cannot forward a node with children.");
         else if (redirectFrom != null)
             throw new IllegalStateException("Cannot forward a node that is targeted by redirects.");
-        redirectTarget = null;
-        redirectTo = key;
+        redirectTo.setFloraValue(key);
         redirectModifier = modifier;
         forks = fork;
         return getThis();
@@ -102,8 +99,7 @@ public abstract class TreeBuilder<S, T extends TreeBuilder<S, T>> {
     private T forwardToNode(final CommandNode<S> target, final RedirectModifier<S> modifier, final boolean fork) {
         if (!children.isEmpty())
             throw new IllegalStateException("Cannot forward a node with children.");
-        redirectTo = null;
-        redirectTarget = target;
+        redirectTo.setBrigadierValue(target);
         redirectModifier = modifier;
         forks = fork;
         return getThis();
@@ -129,7 +125,7 @@ public abstract class TreeBuilder<S, T extends TreeBuilder<S, T>> {
 
         // Adding children. This is all skipped if this node redirects somewhere
         // else, cause those "redirection" nodes can't have children anyway.
-        if (redirectTo == null) {
+        if (!redirectTo.isSet()) {
             for (TreeBuilder<S, ?> child : children) {
                 node.addChild(child.buildStep(info));
             }

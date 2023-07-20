@@ -22,9 +22,9 @@ public class LiteralTreeBuilder<S>
     @Override
     public LiteralCommandNode<S> build(CommandBuildInfo<S> info) {
         return new LiteralCommandNode<>(literal,
-                                        info.getExit(this),
+                                        exit.get(info),
                                         requirement,
-                                        info.getRedirectTarget(this),
+                                        redirectTo.get(info),
                                         redirectModifier,
                                         forks);
     }

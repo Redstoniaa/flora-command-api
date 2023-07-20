@@ -29,7 +29,7 @@ public abstract class Property<S, B, F> {
         }
     }
 
-    protected boolean isSet() {
+    public boolean isSet() {
         return brigadierValue != null || floraValue != null;
     }
 
