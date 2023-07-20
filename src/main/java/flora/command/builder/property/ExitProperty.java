@@ -3,8 +3,7 @@ package flora.command.builder.property;
 import com.mojang.brigadier.Command;
 import flora.command.builder.CommandBuildInfo;
 import flora.command.exit.FeedbackCommandExit;
-
-import static flora.command.FloraCommandManager.UNIVERSAL_CONTEXT_PROVIDER;
+import flora.command.exit.provider.UniversalContextProvider;
 
 public class ExitProperty<S>
         extends Property<S, Command<S>, FeedbackCommandExit<S>> {
@@ -16,9 +15,9 @@ public class ExitProperty<S>
     @Override
     protected Command<S> modifyReturn(CommandBuildInfo<S> info, Command<S> queried) {
         return context -> {
-            UNIVERSAL_CONTEXT_PROVIDER.setContext(context);
+            UniversalContextProvider.context = context;
             int feedback = queried.run(context);
-            UNIVERSAL_CONTEXT_PROVIDER.clearContext();
+            UniversalContextProvider.context = null;
             return feedback;
         };
     }
