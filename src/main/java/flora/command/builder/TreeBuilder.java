@@ -36,7 +36,7 @@ public abstract class TreeBuilder<S, T extends TreeBuilder<S, T>> {
     }
 
     public T executes(final CommandExit<S> exit) {
-        return executes(exit.getFeedbackVersion());
+        return executes(exit.toFeedbackExit());
     }
 
     public T executes(final FeedbackCommandExit<S> exit) {
