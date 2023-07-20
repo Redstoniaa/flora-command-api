@@ -16,18 +16,21 @@ public abstract class Property<S, B, F> {
         brigadierValue = null;
     }
 
-    private B getRaw(CommandBuildInfo<S> info) {
-        if (brigadierValue != null) {
-            return brigadierValue;
-        } else if (floraValue != null) {
-            return getFromFlora(info, floraValue);
+    public B get(CommandBuildInfo<S> info) {
+        if (this.isSet()) {
+            B value;
+            if (brigadierValue != null)
+                value = brigadierValue;
+            else
+                value = getFromFlora(info, floraValue);
+            return modifyReturn(info, value);
         } else {
             return null;
         }
     }
 
-    public B get(CommandBuildInfo<S> info) {
-        return modifyReturn(info, getRaw(info));
+    protected boolean isSet() {
+        return brigadierValue != null || floraValue != null;
     }
 
     protected abstract B getFromFlora(CommandBuildInfo<S> info, F value);
