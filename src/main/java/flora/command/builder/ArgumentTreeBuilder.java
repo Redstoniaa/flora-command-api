@@ -14,7 +14,7 @@ public class ArgumentTreeBuilder<S, T>
     public final ArgumentType<T> type;
     public final SuggestionProvider<S> suggestionsProvider;
 
-    private ArgumentTreeBuilder(final String name, final ArgumentType<T> type, final SuggestionProvider<S> suggestionProvider) {
+    public ArgumentTreeBuilder(final String name, final ArgumentType<T> type, final SuggestionProvider<S> suggestionProvider) {
         this.name = name;
         this.type = type;
         this.suggestionsProvider = suggestionProvider;
@@ -29,9 +29,9 @@ public class ArgumentTreeBuilder<S, T>
     public ArgumentCommandNode<S, T> build(CommandBuildInfo<S> info) {
         return new ArgumentCommandNode<>(name,
                                          type,
-                                         info.getExit(this),
+                                         exit.get(info),
                                          requirement,
-                                         info.getRedirectTarget(this),
+                                         redirectTo.get(info),
                                          redirectModifier,
                                          forks,
                                          suggestionsProvider);

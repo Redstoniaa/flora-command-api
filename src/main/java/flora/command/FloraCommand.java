@@ -1,6 +1,9 @@
 package flora.command;
 
 import com.mojang.brigadier.CommandDispatcher;
+import com.mojang.brigadier.arguments.ArgumentType;
+import com.mojang.brigadier.suggestion.SuggestionProvider;
+import flora.command.builder.ArgumentTreeBuilder;
 import flora.command.builder.LiteralTreeBuilder;
 import flora.command.exit.provider.UniversalContextProvider;
 import flora.command.exit.provider.parsed.ParsedContextProvider;
@@ -42,5 +45,34 @@ public abstract class FloraCommand<S> {
         }
 
         return parsedProviders;
+    }
+
+    /**
+     * @param literal Literal value of the node.
+     * @return A fresh {@link LiteralTreeBuilder}.
+     */
+    protected LiteralTreeBuilder<S> literal(String literal) {
+        return new LiteralTreeBuilder<>(literal);
+    }
+
+    /**
+     * @param name               Name of argument.
+     * @param type               Argument type of argument.
+     * @param suggestionProvider A suggestion provider that the argument will use.
+     * @return A fresh new {@link ArgumentTreeBuilder}.
+     */
+    protected <T> ArgumentTreeBuilder<S, T> argument(String name, ArgumentType<T> type, SuggestionProvider<S> suggestionProvider) {
+        return new ArgumentTreeBuilder<>(name, type, suggestionProvider);
+    }
+
+    /**
+     * Literally just the other {@code argument()} but without a {@link SuggestionProvider}, because that is supposed to
+     * be optional.
+     * @param name Name of argument.
+     * @param type Argument type of argument.
+     * @return A fresh new {@link ArgumentTreeBuilder}.
+     */
+    protected <T> ArgumentTreeBuilder<S, T> argument(String name, ArgumentType<T> type) {
+        return argument(name, type, null);
     }
 }
