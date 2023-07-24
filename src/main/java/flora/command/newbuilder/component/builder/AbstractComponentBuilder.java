@@ -1,8 +1,6 @@
 package flora.command.newbuilder.component.builder;
 
-import flora.command.newbuilder.TreeBuilder;
-
 @FunctionalInterface
-public interface AbstractComponentBuilder<S, T extends TreeBuilder<S>> {
+public interface AbstractComponentBuilder<S, T> {
     void build(T treeBuilder);
 }
