@@ -106,7 +106,7 @@ public abstract class TreeBuilder<S, T extends TreeBuilder<S, T>> {
     }
 
     /**
-     * Builds the entire command tree - this builder and all children of it.
+     * Builds the entire command tree - this applier and all children of it.
      * @return The resulting command node.
      */
     public CommandNode<S> buildTree(CommandBuildInfo<S> info) {
@@ -117,7 +117,7 @@ public abstract class TreeBuilder<S, T extends TreeBuilder<S, T>> {
     public abstract CommandNode<S> build(CommandBuildInfo<S> info);
 
     private CommandNode<S> buildStep(CommandBuildInfo<S> info) {
-        // The node representing this builder. If this node is redirected to, the node already
+        // The node representing this applier. If this node is redirected to, the node already
         // exists, so it just gets that existing node. Otherwise, it's built here.
         CommandNode<S> node = redirectFrom == null
                 ? build(info)
@@ -131,7 +131,7 @@ public abstract class TreeBuilder<S, T extends TreeBuilder<S, T>> {
             }
         }
 
-        // Return the completed node representing this builder.
+        // Return the completed node representing this applier.
         return node;
     }
 
