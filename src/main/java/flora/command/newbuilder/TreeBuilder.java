@@ -1,8 +1,8 @@
 package flora.command.newbuilder;
 
 import com.mojang.brigadier.tree.CommandNode;
-import flora.command.newbuilder.component.applier.AbstractComponentApplier;
 import flora.command.newbuilder.component.applier.ComponentApplier;
+import flora.command.newbuilder.component.applier.GenericComponentApplier;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +15,7 @@ import java.util.List;
  * @param <T> The type of builder that this is.
  */
 public abstract class TreeBuilder<S, T extends TreeBuilder<S, T>>
-        implements ComponentApplier<S> {
+        implements GenericComponentApplier<S> {
     public List<TreeBuilder<S, ?>> children = new ArrayList<>();
     
     protected abstract T getThis();
@@ -24,8 +24,8 @@ public abstract class TreeBuilder<S, T extends TreeBuilder<S, T>>
      * Apply the specified component appliers to this builder.
      * @param appliers The appliers to apply. These can target the type {@code T} or the base {@link TreeBuilder} type.
      */
-    public void apply(AbstractComponentApplier<S, ? super T>... appliers) {
-        for (AbstractComponentApplier<S, ? super T> applier : appliers) {
+    public void apply(ComponentApplier<S, ? super T>... appliers) {
+        for (ComponentApplier<S, ? super T> applier : appliers) {
             applier.applyTo(getThis());
         }
     }
