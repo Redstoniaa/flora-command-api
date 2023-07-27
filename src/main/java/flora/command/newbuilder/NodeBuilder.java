@@ -1,6 +1,7 @@
 package flora.command.newbuilder;
 
 import com.mojang.brigadier.tree.CommandNode;
+import flora.command.newbuilder.component.*;
 import flora.command.newbuilder.component.applier.ComponentApplier;
 import flora.command.newbuilder.component.applier.GenericComponentApplier;
 
@@ -15,7 +16,13 @@ import java.util.List;
  */
 public abstract class NodeBuilder<S, T extends NodeBuilder<S, T>>
         implements GenericComponentApplier<S> {
-    public List<NodeBuilder<S, ?>> children = new ArrayList<>();
+    public List<NodeBuilder<S, ?>>          children = new ArrayList<>();
+    
+    public ExitComponent<S, ?>              exit;
+    public RequirementComponent<S, ?>       requirement;
+    public RedirectToComponent<S, ?>        redirectTo;
+    public RedirectModifierComponent<S, ?>  redirectModifier;
+    public ForksComponent<S, ?>             forks;
     
     protected abstract T getThis();
     
