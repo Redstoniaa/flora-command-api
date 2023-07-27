@@ -1,44 +1,26 @@
-package flora.command;
+package flora.command.newbuilder.component.factory;
 
-import com.mojang.brigadier.Command;
 import com.mojang.brigadier.RedirectModifier;
 import com.mojang.brigadier.SingleRedirectModifier;
 import com.mojang.brigadier.tree.CommandNode;
 import flora.command.builder.CommandBuildInfo;
-import flora.command.exit.CommandExit;
-import flora.command.exit.FeedbackCommandExit;
-import flora.command.newbuilder.component.*;
+import flora.command.newbuilder.component.ComponentFunction;
+import flora.command.newbuilder.component.ForksComponent;
+import flora.command.newbuilder.component.RedirectModifierComponent;
+import flora.command.newbuilder.component.RedirectToComponent;
 import flora.command.newbuilder.component.applier.GenericComponentApplier;
 import flora.command.redirect.RedirectKey;
 
 import java.util.Collections;
-import java.util.function.Predicate;
 
-public class ComponentFactory {
-    public static <S> GenericComponentApplier<S> exits(final Command<S> command) {
-        return builder -> builder.exit =
-                new ExitComponent<>(command, asIsFunction());
-    }
-    
-    public static <S> GenericComponentApplier<S> exits(final FeedbackCommandExit<S> exit) {
-        return builder -> builder.exit =
-                new ExitComponent<>(exit, exitFunction());
-    }
-    
-    public static <S> GenericComponentApplier<S> exits(final CommandExit<S> exit) {
-        return exits(exit.toFeedbackExit());
-    }
-    
-    public static <S> GenericComponentApplier<S> requires(final Predicate<S> requirement) {
-        return builder -> builder.requirement =
-                new RequirementComponent<>(requirement, asIsFunction());
-    }
-    
+import static flora.command.newbuilder.component.factory.CentralComponentFactory.asIsFunction;
+
+public class RedirectComponentFactory {
     public static <S> GenericComponentApplier<S> redirectTo(final CommandNode<S> node, final SingleRedirectModifier<S> modifier) {
         RedirectModifier<S> fullModifier =
                 modifier == null
-                ? null
-                : context -> Collections.singleton(modifier.apply(context));
+                        ? null
+                        : context -> Collections.singleton(modifier.apply(context));
         return forward(node, fullModifier, false);
     }
     
@@ -68,32 +50,18 @@ public class ComponentFactory {
     
     private static <S> GenericComponentApplier<S> forward(final CommandNode<S> node, final RedirectModifier<S> modifier, final boolean forks) {
         return builder -> {
-            builder.redirectTo =
-                    new RedirectToComponent<>(node, asIsFunction());
-            builder.redirectModifier =
-                    new RedirectModifierComponent<>(modifier, asIsFunction());
-            builder.forks =
-                    new ForksComponent<>(forks, asIsFunction());
+            builder.redirectTo = new RedirectToComponent<>(node, asIsFunction());
+            builder.redirectModifier = new RedirectModifierComponent<>(modifier, asIsFunction());
+            builder.forks = new ForksComponent<>(forks, asIsFunction());
         };
     }
     
     private static <S> GenericComponentApplier<S> forward(final RedirectKey key, final RedirectModifier<S> modifier, final boolean forks) {
         return builder -> {
-            builder.redirectTo =
-                    new RedirectToComponent<>(key, redirectToFunction());
-            builder.redirectModifier =
-                    new RedirectModifierComponent<>(modifier, asIsFunction());
-            builder.forks =
-                    new ForksComponent<>(forks, asIsFunction());
+            builder.redirectTo = new RedirectToComponent<>(key, redirectToFunction());
+            builder.redirectModifier = new RedirectModifierComponent<>(modifier, asIsFunction());
+            builder.forks = new ForksComponent<>(forks, asIsFunction());
         };
-    }
-    
-    private static <S, V> ComponentFunction<S, V, V> asIsFunction() {
-        return (V value, CommandBuildInfo<S> info) -> value;
-    }
-    
-    private static <S> ComponentFunction<S, FeedbackCommandExit<S>, Command<S>> exitFunction() {
-        return (FeedbackCommandExit<S> exit, CommandBuildInfo<S> info) -> exit.toBrigadierExit(info.contextProviders);
     }
     
     private static <S> ComponentFunction<S, RedirectKey, CommandNode<S>> redirectToFunction() {
