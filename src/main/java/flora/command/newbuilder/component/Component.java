@@ -22,7 +22,7 @@ public class Component<S, V, R> {
      * @return A representation of the information held in this component in a type that can be interpreted by
      * Brigadier.
      */
-    R get(CommandBuildInfo<S> info) {
+    public R get(CommandBuildInfo<S> info) {
         return function.apply(value, info);
     }
 }

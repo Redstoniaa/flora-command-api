@@ -10,7 +10,7 @@ public class ExitComponent<S, V>
     }
     
     @Override
-    Command<S> get(CommandBuildInfo<S> info) {
+    public Command<S> get(CommandBuildInfo<S> info) {
         return modify(super.get(info), info);
     }
     

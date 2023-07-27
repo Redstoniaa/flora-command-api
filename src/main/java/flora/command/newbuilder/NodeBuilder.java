@@ -1,6 +1,7 @@
 package flora.command.newbuilder;
 
 import com.mojang.brigadier.tree.CommandNode;
+import flora.command.builder.CommandBuildInfo;
 import flora.command.newbuilder.component.*;
 import flora.command.newbuilder.component.applier.ComponentApplier;
 import flora.command.newbuilder.component.applier.GenericComponentApplier;
@@ -40,4 +41,10 @@ public abstract class NodeBuilder<S, T extends NodeBuilder<S, T>>
     public void applyTo(NodeBuilder<S, ?> builder) {
         builder.children.add(this);
     }
+    
+    /**
+     * Build this builder ONLY.
+     * @return The resulting command node;
+     */
+    public abstract CommandNode<S> buildThis(CommandBuildInfo<S> info);
 }
