@@ -13,7 +13,7 @@ import flora.command.redirect.RedirectKey;
 
 import java.util.Collections;
 
-import static flora.command.newbuilder.component.factory.CentralComponentFactory.asIsFunction;
+import static flora.command.newbuilder.component.ComponentFunction.asIsFunction;
 
 public class RedirectComponentFactory {
     public static <S> GenericComponentApplier<S> redirectTo(final CommandNode<S> node, final SingleRedirectModifier<S> modifier) {

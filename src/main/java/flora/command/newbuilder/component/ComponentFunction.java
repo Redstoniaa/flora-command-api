@@ -14,4 +14,8 @@ import java.util.function.BiFunction;
  */
 @FunctionalInterface
 public interface ComponentFunction<S, V, R>
-        extends BiFunction<V, CommandBuildInfo<S>, R> {}
+        extends BiFunction<V, CommandBuildInfo<S>, R> {
+    static <S, V> ComponentFunction<S, V, V> asIsFunction() {
+        return (V value, CommandBuildInfo<S> info) -> value;
+    }
+}

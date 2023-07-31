@@ -4,7 +4,7 @@ import flora.command.newbuilder.LiteralNodeBuilder;
 import flora.command.newbuilder.component.LiteralComponent;
 import flora.command.newbuilder.component.applier.ComponentApplier;
 
-import static flora.command.newbuilder.component.factory.CentralComponentFactory.asIsFunction;
+import static flora.command.newbuilder.component.ComponentFunction.asIsFunction;
 
 public class NodeBuilderFactory {
     @SafeVarargs

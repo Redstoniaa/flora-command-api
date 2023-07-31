@@ -8,7 +8,7 @@ import flora.command.newbuilder.component.ComponentFunction;
 import flora.command.newbuilder.component.ExitComponent;
 import flora.command.newbuilder.component.applier.GenericComponentApplier;
 
-import static flora.command.newbuilder.component.factory.CentralComponentFactory.asIsFunction;
+import static flora.command.newbuilder.component.ComponentFunction.asIsFunction;
 
 public class ExitComponentFactory {
     public static <S> GenericComponentApplier<S> exits(final Command<S> command) {
