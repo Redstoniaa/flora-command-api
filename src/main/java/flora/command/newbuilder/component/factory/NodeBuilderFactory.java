@@ -3,10 +3,6 @@ package flora.command.newbuilder.component.factory;
 import flora.command.argument.CommandArgument;
 import flora.command.newbuilder.ArgumentNodeBuilder;
 import flora.command.newbuilder.LiteralNodeBuilder;
-import flora.command.newbuilder.component.ArgumentNameComponent;
-import flora.command.newbuilder.component.ArgumentTypeComponent;
-import flora.command.newbuilder.component.LiteralComponent;
-import flora.command.newbuilder.component.SuggestionProviderComponent;
 import flora.command.newbuilder.component.applier.ComponentApplier;
 
 import static flora.command.newbuilder.component.ComponentFunction.asIsFunction;

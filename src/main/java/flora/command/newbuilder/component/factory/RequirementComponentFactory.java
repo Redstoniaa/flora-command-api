@@ -1,6 +1,5 @@
 package flora.command.newbuilder.component.factory;
 
-import flora.command.newbuilder.component.RequirementComponent;
 import flora.command.newbuilder.component.applier.GenericComponentApplier;
 
 import java.util.function.Predicate;

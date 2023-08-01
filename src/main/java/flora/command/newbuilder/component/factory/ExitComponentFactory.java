@@ -5,18 +5,18 @@ import flora.command.builder.CommandBuildInfo;
 import flora.command.exit.CommandExit;
 import flora.command.exit.FeedbackCommandExit;
 import flora.command.newbuilder.component.ComponentFunction;
-import flora.command.newbuilder.component.ExitComponent;
+import flora.command.newbuilder.component.ExitUCPComponent;
 import flora.command.newbuilder.component.applier.GenericComponentApplier;
 
 import static flora.command.newbuilder.component.ComponentFunction.asIsFunction;
 
 public class ExitComponentFactory {
     public static <S> GenericComponentApplier<S> exits(final Command<S> command) {
-        return builder -> builder.exit = new ExitComponent<>(command, asIsFunction());
+        return builder -> builder.exit = new ExitUCPComponent<>(command, asIsFunction());
     }
     
     public static <S> GenericComponentApplier<S> exits(final FeedbackCommandExit<S> exit) {
-        return builder -> builder.exit = new ExitComponent<>(exit, exitFunction());
+        return builder -> builder.exit = new ExitUCPComponent<>(exit, exitFunction());
     }
     
     public static <S> GenericComponentApplier<S> exits(final CommandExit<S> exit) {

@@ -23,7 +23,7 @@ public abstract class NodeBuilder<S, T extends NodeBuilder<S, T>>
         implements GenericComponentApplier<S> {
     public List<NodeBuilder<S, ?>>          children = new ArrayList<>();
     
-    public ExitComponent<S, ?>              exit;
+    public ExitUCPComponent<S, ?> exit;
     public RequirementComponent<S, ?>       requirement;
     public RedirectToComponent<S, ?>        redirectTo;
     public RedirectModifierComponent<S, ?>  redirectModifier;

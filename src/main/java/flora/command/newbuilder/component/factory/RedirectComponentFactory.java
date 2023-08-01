@@ -5,9 +5,6 @@ import com.mojang.brigadier.SingleRedirectModifier;
 import com.mojang.brigadier.tree.CommandNode;
 import flora.command.builder.CommandBuildInfo;
 import flora.command.newbuilder.component.ComponentFunction;
-import flora.command.newbuilder.component.ForksComponent;
-import flora.command.newbuilder.component.RedirectModifierComponent;
-import flora.command.newbuilder.component.RedirectToComponent;
 import flora.command.newbuilder.component.applier.GenericComponentApplier;
 import flora.command.redirect.RedirectKey;
 
