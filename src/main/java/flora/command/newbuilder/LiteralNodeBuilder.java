@@ -10,7 +10,7 @@ import flora.command.newbuilder.component.Component;
  */
 public class LiteralNodeBuilder<S>
         extends NodeBuilder<S, LiteralNodeBuilder<S>> {
-    public Component<S, String> literal;
+    public Component<S, String> literal = new Component<>();
     
     @Override
     protected LiteralNodeBuilder<S> getThis() {

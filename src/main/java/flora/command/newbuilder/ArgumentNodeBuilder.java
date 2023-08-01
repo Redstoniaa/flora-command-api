@@ -8,9 +8,9 @@ import flora.command.newbuilder.component.Component;
 
 public class ArgumentNodeBuilder<S, T>
         extends NodeBuilder<S, ArgumentNodeBuilder<S, T>> {
-    public Component<S, String> name;
-    public Component<S, ArgumentType<T>> type;
-    public Component<S, SuggestionProvider<S>> suggestionProvider;
+    public Component<S, String> name = new Component<>();
+    public Component<S, ArgumentType<T>> type = new Component<>();
+    public Component<S, SuggestionProvider<S>> suggestionProvider = new Component<>();
     
     @Override
     protected ArgumentNodeBuilder<S, T> getThis() {

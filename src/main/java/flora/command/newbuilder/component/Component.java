@@ -15,6 +15,10 @@ public class Component<S, R> {
         set(function);
     }
     
+    public Component(R value) {
+        set(value);
+    }
+    
     public Component() {
         clear();
     }

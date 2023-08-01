@@ -25,11 +25,11 @@ public abstract class NodeBuilder<S, T extends NodeBuilder<S, T>>
         implements GenericComponentApplier<S> {
     public List<NodeBuilder<S, ?>> children = new ArrayList<>();
     
-    public Component<S, Command<S>> exit;
-    public Component<S, Predicate<S>> requirement;
-    public Component<S, CommandNode<S>> redirectTo;
-    public Component<S, RedirectModifier<S>> redirectModifier;
-    public Component<S, Boolean> forks;
+    public Component<S, Command<S>> exit = new Component<>();
+    public Component<S, Predicate<S>> requirement = new Component<>((Predicate<S>) (s -> true)); // hurts to look at
+    public Component<S, CommandNode<S>> redirectTo = new Component<>();
+    public Component<S, RedirectModifier<S>> redirectModifier = new Component<>(null);
+    public Component<S, Boolean> forks = new Component<>(false);
     
     // Informal component, should probably put in better code to accommodate this.
     public RedirectKey redirectFrom;
