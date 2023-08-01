@@ -1,8 +1,10 @@
 package flora.command.newbuilder;
 
+import com.mojang.brigadier.Command;
+import com.mojang.brigadier.RedirectModifier;
 import com.mojang.brigadier.tree.CommandNode;
 import flora.command.builder.CommandBuildInfo;
-import flora.command.newbuilder.component.*;
+import flora.command.newbuilder.component.Component;
 import flora.command.newbuilder.component.applier.ComponentApplier;
 import flora.command.newbuilder.component.applier.GenericComponentApplier;
 import flora.command.redirect.RedirectKey;
@@ -21,13 +23,13 @@ import java.util.function.Predicate;
  */
 public abstract class NodeBuilder<S, T extends NodeBuilder<S, T>>
         implements GenericComponentApplier<S> {
-    public List<NodeBuilder<S, ?>>          children = new ArrayList<>();
+    public List<NodeBuilder<S, ?>> children = new ArrayList<>();
     
-    public ExitUCPComponent<S, ?> exit;
-    public RequirementComponent<S, ?>       requirement;
-    public RedirectToComponent<S, ?>        redirectTo;
-    public RedirectModifierComponent<S, ?>  redirectModifier;
-    public ForksComponent<S, ?>             forks;
+    public Component<S, Command<S>> exit;
+    public Component<S, Predicate<S>> requirement;
+    public Component<S, CommandNode<S>> redirectTo;
+    public Component<S, RedirectModifier<S>> redirectModifier;
+    public Component<S, Boolean> forks;
     
     // Informal component, should probably put in better code to accommodate this.
     public RedirectKey redirectFrom;
@@ -36,6 +38,7 @@ public abstract class NodeBuilder<S, T extends NodeBuilder<S, T>>
     
     /**
      * Apply the specified component appliers to this builder.
+     *
      * @param appliers The appliers to apply. These can target the type {@code T} or the base {@link NodeBuilder} type.
      */
     public void apply(ComponentApplier<S, ? super T>... appliers) {
@@ -51,12 +54,14 @@ public abstract class NodeBuilder<S, T extends NodeBuilder<S, T>>
     
     /**
      * Build this builder ONLY.
+     *
      * @return The resulting command node;
      */
     public abstract CommandNode<S> buildThis(CommandBuildInfo<S> info);
     
     /**
      * Build the entire command tree: this builder and all children of it.
+     *
      * @return The resulting command node.
      */
     public CommandNode<S> buildTree(CommandBuildInfo<S> info) {
@@ -93,6 +98,7 @@ public abstract class NodeBuilder<S, T extends NodeBuilder<S, T>>
             if (condition.test(builder)) {
                 matches.add(builder);
             }
-        } return matches;
+        }
+        return matches;
     }
 }
