@@ -5,9 +5,13 @@ import flora.command.builder.CommandBuildInfo;
 import flora.command.newbuilder.component.*;
 import flora.command.newbuilder.component.applier.ComponentApplier;
 import flora.command.newbuilder.component.applier.GenericComponentApplier;
+import flora.command.redirect.RedirectKey;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.function.Predicate;
 
 /**
  * A builder that represents a {@link CommandNode} in the final command tree.
@@ -24,6 +28,9 @@ public abstract class NodeBuilder<S, T extends NodeBuilder<S, T>>
     public RedirectToComponent<S, ?>        redirectTo;
     public RedirectModifierComponent<S, ?>  redirectModifier;
     public ForksComponent<S, ?>             forks;
+    
+    // Informal component, should probably put in better code to accommodate this.
+    public RedirectKey redirectFrom;
     
     protected abstract T getThis();
     
@@ -47,4 +54,45 @@ public abstract class NodeBuilder<S, T extends NodeBuilder<S, T>>
      * @return The resulting command node;
      */
     public abstract CommandNode<S> buildThis(CommandBuildInfo<S> info);
+    
+    /**
+     * Build the entire command tree: this builder and all children of it.
+     * @return The resulting command node.
+     */
+    public CommandNode<S> buildTree(CommandBuildInfo<S> info) {
+    
+    }
+    
+    private CommandNode<S> buildStep(CommandBuildInfo<S> info) {
+    
+    }
+    
+    private void populateBuildInfo(CommandBuildInfo<S> info) {
+        List<NodeBuilder<S, ?>> referenceBuilders = collectAllMatching(b -> b.redirectFrom != null);
+        Map<RedirectKey, CommandNode<S>> redirectMap = new HashMap<>();
+        
+        for (NodeBuilder<S, ?> builder : referenceBuilders) {
+            redirectMap.put(builder.redirectFrom, builder.buildThis(info));
+        }
+        
+        info.redirectMap = redirectMap;
+    }
+    
+    private List<NodeBuilder<S, ?>> collectAll() {
+        List<NodeBuilder<S, ?>> children = new ArrayList<>();
+        children.add(this);
+        for (NodeBuilder<S, ?> child : this.children)
+            children.addAll(child.collectAll());
+        return children;
+    }
+    
+    private List<NodeBuilder<S, ?>> collectAllMatching(Predicate<NodeBuilder<S, ?>> condition) {
+        List<NodeBuilder<S, ?>> all = collectAll();
+        List<NodeBuilder<S, ?>> matches = new ArrayList<>();
+        for (NodeBuilder<S, ?> builder : all) {
+            if (condition.test(builder)) {
+                matches.add(builder);
+            }
+        } return matches;
+    }
 }
