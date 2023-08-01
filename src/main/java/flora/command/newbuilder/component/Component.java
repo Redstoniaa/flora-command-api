@@ -6,16 +6,29 @@ import flora.command.builder.CommandBuildInfo;
  * A component of a NodeBuilder.
  *
  * @param <S> The source type of the builder.
- * @param <V> The input value held by this component.
  * @param <R> The type that is outputted by this component that is understood by Brigadier.
  */
-public class Component<S, V, R> {
-    V value;
-    ComponentFunction<S, V, R> function;
+public class Component<S, R> {
+    ComponentFunction<S, R> function;
     
-    public Component(V value, ComponentFunction<S, V, R> function) {
-        this.value = value;
+    public Component(ComponentFunction<S, R> function) {
+        set(function);
+    }
+    
+    public Component() {
+        clear();
+    }
+    
+    public void set(ComponentFunction<S, R> function) {
         this.function = function;
+    }
+    
+    public void set(R value) {
+        this.function = info -> value;
+    }
+    
+    public void clear() {
+        this.function = info -> null;
     }
     
     /**
@@ -23,6 +36,6 @@ public class Component<S, V, R> {
      * Brigadier.
      */
     public R get(CommandBuildInfo<S> info) {
-        return function.apply(value, info);
+        return function.get(info);
     }
 }
