@@ -12,22 +12,22 @@ public class Component<S, R> {
     ComponentFunction<S, R> function;
     
     public Component(ComponentFunction<S, R> function) {
-        set(function);
+        setFunction(function);
     }
     
     public Component(R value) {
-        set(value);
+        setValue(value);
     }
     
     public Component() {
         clear();
     }
     
-    public void set(ComponentFunction<S, R> function) {
+    public void setFunction(ComponentFunction<S, R> function) {
         this.function = function;
     }
     
-    public void set(R value) {
+    public void setValue(R value) {
         this.function = info -> value;
     }
     

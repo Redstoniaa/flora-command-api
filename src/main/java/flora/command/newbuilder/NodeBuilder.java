@@ -26,13 +26,18 @@ public abstract class NodeBuilder<S, T extends NodeBuilder<S, T>>
     public List<NodeBuilder<S, ?>> children = new ArrayList<>();
     
     public Component<S, Command<S>> exit = new Component<>();
-    public Component<S, Predicate<S>> requirement = new Component<>((Predicate<S>) (s -> true)); // hurts to look at
+    public Component<S, Predicate<S>> requirement = new Component<>();
     public Component<S, CommandNode<S>> redirectTo = new Component<>();
-    public Component<S, RedirectModifier<S>> redirectModifier = new Component<>(null);
-    public Component<S, Boolean> forks = new Component<>(false);
+    public Component<S, RedirectModifier<S>> redirectModifier = new Component<>();
+    public Component<S, Boolean> forks = new Component<>();
     
     // Informal component, should probably put in better code to accommodate this.
     public RedirectKey redirectFrom;
+    
+    public NodeBuilder() {
+        // just instantiate all needed components
+        requirement.setValue(s -> true);
+    }
     
     protected abstract T getThis();
     
