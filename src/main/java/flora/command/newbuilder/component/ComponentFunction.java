@@ -7,9 +7,17 @@ import flora.command.builder.CommandBuildInfo;
  * understood by Brigadier.
  *
  * @param <S> The command source type of the builder.
- * @param <R> The return type, which can be interpreted by Brigadier.
+ * @param <T> The return type, which can be interpreted by Brigadier.
  */
 @FunctionalInterface
-public interface ComponentFunction<S, R> {
-    R get(CommandBuildInfo<S> info);
+public interface ComponentFunction<S, T> {
+    T get(CommandBuildInfo<S> info);
+    
+    static <S, T> ComponentFunction<S, T> empty() {
+        return info -> null;
+    }
+    
+    static <S, T> ComponentFunction<S, T> value(T value) {
+        return info -> value;
+    }
 }
