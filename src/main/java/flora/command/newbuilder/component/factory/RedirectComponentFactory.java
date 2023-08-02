@@ -3,14 +3,11 @@ package flora.command.newbuilder.component.factory;
 import com.mojang.brigadier.RedirectModifier;
 import com.mojang.brigadier.SingleRedirectModifier;
 import com.mojang.brigadier.tree.CommandNode;
-import flora.command.builder.CommandBuildInfo;
 import flora.command.newbuilder.component.ComponentFunction;
 import flora.command.newbuilder.component.applier.GenericComponentApplier;
 import flora.command.redirect.RedirectKey;
 
 import java.util.Collections;
-
-import static flora.command.newbuilder.component.ComponentFunction.asIsFunction;
 
 public class RedirectComponentFactory {
     public static <S> GenericComponentApplier<S> redirectTo(final CommandNode<S> node, final SingleRedirectModifier<S> modifier) {
@@ -47,21 +44,21 @@ public class RedirectComponentFactory {
     
     private static <S> GenericComponentApplier<S> forward(final CommandNode<S> node, final RedirectModifier<S> modifier, final boolean forks) {
         return builder -> {
-            builder.redirectTo = new RedirectToComponent<>(node, asIsFunction());
-            builder.redirectModifier = new RedirectModifierComponent<>(modifier, asIsFunction());
-            builder.forks = new ForksComponent<>(forks, asIsFunction());
+            builder.redirectTo.setValue(node);
+            builder.redirectModifier.setValue(modifier);
+            builder.forks.setValue(forks);
         };
     }
     
     private static <S> GenericComponentApplier<S> forward(final RedirectKey key, final RedirectModifier<S> modifier, final boolean forks) {
         return builder -> {
-            builder.redirectTo = new RedirectToComponent<>(key, redirectToFunction());
-            builder.redirectModifier = new RedirectModifierComponent<>(modifier, asIsFunction());
-            builder.forks = new ForksComponent<>(forks, asIsFunction());
+            builder.redirectTo.setFunction(redirectToFunction(key));
+            builder.redirectModifier.setValue(modifier);
+            builder.forks.setValue(forks);
         };
     }
     
-    private static <S> ComponentFunction<S, RedirectKey, CommandNode<S>> redirectToFunction() {
-        return (RedirectKey key, CommandBuildInfo<S> info) -> info.redirectMap.get(key);
+    private static <S> ComponentFunction<S, CommandNode<S>> redirectToFunction(RedirectKey key) {
+        return info -> info.redirectMap.get(key);
     }
 }

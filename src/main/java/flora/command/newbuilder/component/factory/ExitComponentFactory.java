@@ -1,29 +1,27 @@
 package flora.command.newbuilder.component.factory;
 
 import com.mojang.brigadier.Command;
-import flora.command.builder.CommandBuildInfo;
 import flora.command.exit.CommandExit;
 import flora.command.exit.FeedbackCommandExit;
 import flora.command.newbuilder.component.ComponentFunction;
-import flora.command.newbuilder.component.ExitUCPComponent;
 import flora.command.newbuilder.component.applier.GenericComponentApplier;
 
-import static flora.command.newbuilder.component.ComponentFunction.asIsFunction;
-
 public class ExitComponentFactory {
-    public static <S> GenericComponentApplier<S> exits(final Command<S> command) {
-        return builder -> builder.exit = new ExitUCPComponent<>(command, asIsFunction());
+    public static <S> GenericComponentApplier<S> executes(final Command<S> command) {
+        return builder -> builder.exit.setValue(command);
     }
     
-    public static <S> GenericComponentApplier<S> exits(final FeedbackCommandExit<S> exit) {
-        return builder -> builder.exit = new ExitUCPComponent<>(exit, exitFunction());
+    public static <S> GenericComponentApplier<S> executes(final FeedbackCommandExit<S> exit) {
+        return builder -> builder.exit.setFunction(exitFunction(exit));
     }
     
-    public static <S> GenericComponentApplier<S> exits(final CommandExit<S> exit) {
-        return exits(exit.toFeedbackExit());
+    public static <S> GenericComponentApplier<S> executes(final CommandExit<S> exit) {
+        return executes(exit.toFeedbackExit());
     }
     
-    private static <S> ComponentFunction<S, FeedbackCommandExit<S>, Command<S>> exitFunction() {
-        return (FeedbackCommandExit<S> exit, CommandBuildInfo<S> info) -> exit.toBrigadierExit(info.contextProviders);
+    // TODO: figure out how to do UCP integration into the command
+    
+    private static <S> ComponentFunction<S, Command<S>> exitFunction(final FeedbackCommandExit<S> exit) {
+        return info -> exit.toBrigadierExit(info.contextProviders);
     }
 }

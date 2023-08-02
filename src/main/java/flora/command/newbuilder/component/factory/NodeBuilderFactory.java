@@ -5,23 +5,21 @@ import flora.command.newbuilder.ArgumentNodeBuilder;
 import flora.command.newbuilder.LiteralNodeBuilder;
 import flora.command.newbuilder.component.applier.ComponentApplier;
 
-import static flora.command.newbuilder.component.ComponentFunction.asIsFunction;
-
 public class NodeBuilderFactory {
     @SafeVarargs
-    public static <S> LiteralNodeBuilder<S> lit(final String literal, ComponentApplier<S, ? super LiteralNodeBuilder<S>>... appliers) {
+    public static <S> LiteralNodeBuilder<S> lit(final String literal, final ComponentApplier<S, ? super LiteralNodeBuilder<S>>... appliers) {
         LiteralNodeBuilder<S> builder = new LiteralNodeBuilder<>();
-        builder.literal = new LiteralComponent<>(literal, asIsFunction());
+        builder.literal.setValue(literal);
         builder.apply(appliers);
         return builder;
     }
     
     @SafeVarargs
-    public static <S, T> ArgumentNodeBuilder<S, T> arg(final CommandArgument<S, T> argument, ComponentApplier<S, ? super ArgumentNodeBuilder<S, T>>... appliers) {
+    public static <S, T> ArgumentNodeBuilder<S, T> arg(final CommandArgument<S, T> argument, final ComponentApplier<S, ? super ArgumentNodeBuilder<S, T>>... appliers) {
         ArgumentNodeBuilder<S, T> builder = new ArgumentNodeBuilder<>();
-        builder.name = new ArgumentNameComponent<>(argument.name, asIsFunction());
-        builder.type = new ArgumentTypeComponent<>(argument.argumentType, asIsFunction());
-        builder.suggestionProvider = new SuggestionProviderComponent<>(argument.suggestionProvider, asIsFunction());
+        builder.name.setValue(argument.name);
+        builder.type.setValue(argument.argumentType);
+        builder.suggestionProvider.setValue(argument.suggestionProvider);
         builder.apply(appliers);
         return builder;
     }
