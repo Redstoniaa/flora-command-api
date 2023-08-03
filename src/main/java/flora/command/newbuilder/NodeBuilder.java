@@ -58,23 +58,42 @@ public abstract class NodeBuilder<S, T extends NodeBuilder<S, T>>
     }
     
     /**
-     * Build this builder ONLY.
+     * Build just this one builder.
      *
      * @return The resulting command node;
      */
     public abstract CommandNode<S> buildThis(CommandBuildInfo<S> info);
     
     /**
-     * Build the entire command tree: this builder and all children of it.
+     * First populates the build info (building and storing the redirect entries for reference), then builds this
+     * builder and all those below it.
      *
      * @return The resulting command node.
      */
     public CommandNode<S> buildTree(CommandBuildInfo<S> info) {
-    
+        populateBuildInfo(info);
+        return buildBelow(info);
     }
     
-    private CommandNode<S> buildStep(CommandBuildInfo<S> info) {
-    
+    /**
+     * Build this builder and those below it.
+     *
+     * @return The resulting command node.
+     */
+    private CommandNode<S> buildBelow(CommandBuildInfo<S> info) {
+        CommandNode<S> node =
+                redirectFrom != null
+                ? info.redirectMap.get(redirectFrom)
+                : buildThis(info);
+        
+        if (!redirectTo.isSet()) {
+            for (NodeBuilder<S, ?> childBuilder : children) {
+                CommandNode<S> childNode = childBuilder.buildThis(info);
+                node.addChild(childNode);
+            }
+        }
+        
+        return node;
     }
     
     private void populateBuildInfo(CommandBuildInfo<S> info) {
@@ -89,21 +108,23 @@ public abstract class NodeBuilder<S, T extends NodeBuilder<S, T>>
     }
     
     private List<NodeBuilder<S, ?>> collectAll() {
-        List<NodeBuilder<S, ?>> children = new ArrayList<>();
-        children.add(this);
+        List<NodeBuilder<S, ?>> collection = new ArrayList<>();
+        collection.add(this);
         for (NodeBuilder<S, ?> child : this.children)
-            children.addAll(child.collectAll());
-        return children;
+            collection.addAll(child.collectAll());
+        return collection;
     }
     
     private List<NodeBuilder<S, ?>> collectAllMatching(Predicate<NodeBuilder<S, ?>> condition) {
         List<NodeBuilder<S, ?>> all = collectAll();
+        
         List<NodeBuilder<S, ?>> matches = new ArrayList<>();
         for (NodeBuilder<S, ?> builder : all) {
             if (condition.test(builder)) {
                 matches.add(builder);
             }
         }
+        
         return matches;
     }
 }
