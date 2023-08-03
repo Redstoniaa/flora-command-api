@@ -97,13 +97,13 @@ public abstract class NodeBuilder<S, T extends NodeBuilder<S, T>>
     }
     
     private void populateBuildInfo(CommandBuildInfo<S> info) {
-        List<NodeBuilder<S, ?>> referenceBuilders = collectAllMatching(b -> b.redirectFrom != null);
-        Map<RedirectKey, CommandNode<S>> redirectMap = new HashMap<>();
+        List<NodeBuilder<S, ?>> referenceBuilders =
+                collectAllMatching(builder -> builder.redirectFrom != null);
         
+        Map<RedirectKey, CommandNode<S>> redirectMap = new HashMap<>();
         for (NodeBuilder<S, ?> builder : referenceBuilders) {
             redirectMap.put(builder.redirectFrom, builder.buildThis(info));
         }
-        
         info.redirectMap = redirectMap;
     }
     
