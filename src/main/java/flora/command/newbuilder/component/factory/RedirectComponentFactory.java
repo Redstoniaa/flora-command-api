@@ -10,6 +10,10 @@ import flora.command.redirect.RedirectKey;
 import java.util.Collections;
 
 public class RedirectComponentFactory {
+    public static <S> GenericComponentApplier<S> redirectFrom(final RedirectKey key) {
+        return builder -> builder.redirectFrom = key;
+    }
+    
     public static <S> GenericComponentApplier<S> redirectTo(final CommandNode<S> node, final SingleRedirectModifier<S> modifier) {
         RedirectModifier<S> fullModifier =
                 modifier == null
