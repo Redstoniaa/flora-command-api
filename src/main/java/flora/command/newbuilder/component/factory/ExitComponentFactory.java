@@ -19,8 +19,6 @@ public class ExitComponentFactory {
         return executes(exit.toFeedbackExit());
     }
     
-    // TODO: figure out how to do UCP integration into the command
-    
     private static <S> ComponentFunction<S, Command<S>> exitFunction(final FeedbackCommandExit<S> exit) {
         return info -> exit.toBrigadierExit(info.contextProviders);
     }

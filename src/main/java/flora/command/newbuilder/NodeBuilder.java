@@ -4,6 +4,7 @@ import com.mojang.brigadier.Command;
 import com.mojang.brigadier.RedirectModifier;
 import com.mojang.brigadier.tree.CommandNode;
 import flora.command.builder.CommandBuildInfo;
+import flora.command.exit.provider.UniversalContextProvider;
 import flora.command.newbuilder.component.Component;
 import flora.command.newbuilder.component.applier.ComponentApplier;
 import flora.command.newbuilder.component.applier.GenericComponentApplier;
@@ -36,6 +37,13 @@ public abstract class NodeBuilder<S, T extends NodeBuilder<S, T>>
     
     public NodeBuilder() {
         // just instantiate all needed components
+        exit.setModifier(command ->
+                                 context -> {
+                                     UniversalContextProvider.context = context;
+                                     int feedback = command.run(context);
+                                     UniversalContextProvider.context = null;
+                                     return feedback;
+                                 });
         requirement.setValue(s -> true);
     }
     
@@ -83,8 +91,8 @@ public abstract class NodeBuilder<S, T extends NodeBuilder<S, T>>
     private CommandNode<S> buildBelow(CommandBuildInfo<S> info) {
         CommandNode<S> node =
                 redirectFrom != null
-                ? info.redirectMap.get(redirectFrom)
-                : buildThis(info);
+                        ? info.redirectMap.get(redirectFrom)
+                        : buildThis(info);
         
         if (!redirectTo.isSet()) {
             for (NodeBuilder<S, ?> childBuilder : children) {
