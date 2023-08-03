@@ -13,10 +13,6 @@ import flora.command.builder.CommandBuildInfo;
 public interface ComponentFunction<S, T> {
     T get(CommandBuildInfo<S> info);
     
-    static <S, T> ComponentFunction<S, T> empty() {
-        return info -> null;
-    }
-    
     static <S, T> ComponentFunction<S, T> value(T value) {
         return info -> value;
     }

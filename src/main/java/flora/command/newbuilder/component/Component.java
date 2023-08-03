@@ -23,7 +23,7 @@ public class Component<S, T> {
     }
     
     public void clear() {
-        setFunction(ComponentFunction.empty());
+        setFunction(null);
     }
     
     public void setModifier(UnaryOperator<T> modifier) {
@@ -39,8 +39,16 @@ public class Component<S, T> {
      * Brigadier.
      */
     public T get(CommandBuildInfo<S> info) {
-        T unmodifiedValue = function.get(info);
-        T finalValue = modifier.apply(unmodifiedValue);
-        return finalValue;
+        if (this.isSet()) {
+            T value = function.get(info);
+            T finalValue = modifier.apply(value);
+            return finalValue;
+        } else {
+            return null;
+        }
+    }
+    
+    public boolean isSet() {
+        return function != null;
     }
 }
