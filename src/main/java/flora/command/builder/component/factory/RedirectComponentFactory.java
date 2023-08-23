@@ -1,10 +1,10 @@
-package flora.command.newbuilder.component.factory;
+package flora.command.builder.component.factory;
 
 import com.mojang.brigadier.RedirectModifier;
 import com.mojang.brigadier.SingleRedirectModifier;
 import com.mojang.brigadier.tree.CommandNode;
-import flora.command.newbuilder.component.ComponentFunction;
-import flora.command.newbuilder.component.applier.GenericComponentApplier;
+import flora.command.builder.component.ComponentFunction;
+import flora.command.builder.component.applier.GenericComponentApplier;
 import flora.command.redirect.RedirectKey;
 
 import java.util.Collections;

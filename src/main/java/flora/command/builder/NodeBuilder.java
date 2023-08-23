@@ -1,13 +1,12 @@
-package flora.command.newbuilder;
+package flora.command.builder;
 
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.RedirectModifier;
 import com.mojang.brigadier.tree.CommandNode;
-import flora.command.builder.CommandBuildInfo;
 import flora.command.exit.provider.UniversalContextProvider;
-import flora.command.newbuilder.component.Component;
-import flora.command.newbuilder.component.applier.ComponentApplier;
-import flora.command.newbuilder.component.applier.GenericComponentApplier;
+import flora.command.builder.component.Component;
+import flora.command.builder.component.applier.ComponentApplier;
+import flora.command.builder.component.applier.GenericComponentApplier;
 import flora.command.redirect.RedirectKey;
 
 import java.util.ArrayList;

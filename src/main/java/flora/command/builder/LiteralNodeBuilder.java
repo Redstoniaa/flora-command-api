@@ -1,8 +1,7 @@
-package flora.command.newbuilder;
+package flora.command.builder;
 
 import com.mojang.brigadier.tree.LiteralCommandNode;
-import flora.command.builder.CommandBuildInfo;
-import flora.command.newbuilder.component.Component;
+import flora.command.builder.component.Component;
 
 /**
  * A builder that represents a {@link LiteralCommandNode} in the final command tree.

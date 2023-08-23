@@ -1,6 +1,6 @@
-package flora.command.newbuilder.component.applier;
+package flora.command.builder.component.applier;
 
-import flora.command.newbuilder.LiteralNodeBuilder;
+import flora.command.builder.LiteralNodeBuilder;
 
 /**
  * Holds a function that applies a component modification that specifically targets a {@link LiteralNodeBuilder}.

@@ -1,9 +1,9 @@
-package flora.command.newbuilder.component.factory;
+package flora.command.builder.component.factory;
 
 import flora.command.argument.CommandArgument;
-import flora.command.newbuilder.ArgumentNodeBuilder;
-import flora.command.newbuilder.LiteralNodeBuilder;
-import flora.command.newbuilder.component.applier.ComponentApplier;
+import flora.command.builder.ArgumentNodeBuilder;
+import flora.command.builder.LiteralNodeBuilder;
+import flora.command.builder.component.applier.ComponentApplier;
 
 public class NodeBuilderFactory {
     @SafeVarargs

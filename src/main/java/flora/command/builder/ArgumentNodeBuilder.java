@@ -1,10 +1,9 @@
-package flora.command.newbuilder;
+package flora.command.builder;
 
 import com.mojang.brigadier.arguments.ArgumentType;
 import com.mojang.brigadier.suggestion.SuggestionProvider;
 import com.mojang.brigadier.tree.ArgumentCommandNode;
-import flora.command.builder.CommandBuildInfo;
-import flora.command.newbuilder.component.Component;
+import flora.command.builder.component.Component;
 
 public class ArgumentNodeBuilder<S, T>
         extends NodeBuilder<S, ArgumentNodeBuilder<S, T>> {

@@ -1,6 +1,6 @@
-package flora.command.newbuilder.component.applier;
+package flora.command.builder.component.applier;
 
-import flora.command.newbuilder.NodeBuilder;
+import flora.command.builder.NodeBuilder;
 
 /**
  * Holds a function that applies a component modification to a specified builder (the exact type targeted

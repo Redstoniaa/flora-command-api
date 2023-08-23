@@ -1,6 +1,6 @@
-package flora.command.newbuilder.component.factory;
+package flora.command.builder.component.factory;
 
-import flora.command.newbuilder.component.applier.GenericComponentApplier;
+import flora.command.builder.component.applier.GenericComponentApplier;
 
 import java.util.function.Predicate;
 

@@ -1,4 +1,4 @@
-package flora.command.newbuilder.component;
+package flora.command.builder.component;
 
 import flora.command.builder.CommandBuildInfo;
 

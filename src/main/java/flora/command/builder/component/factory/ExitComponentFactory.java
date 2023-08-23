@@ -1,10 +1,10 @@
-package flora.command.newbuilder.component.factory;
+package flora.command.builder.component.factory;
 
 import com.mojang.brigadier.Command;
 import flora.command.exit.CommandExit;
 import flora.command.exit.FeedbackCommandExit;
-import flora.command.newbuilder.component.ComponentFunction;
-import flora.command.newbuilder.component.applier.GenericComponentApplier;
+import flora.command.builder.component.ComponentFunction;
+import flora.command.builder.component.applier.GenericComponentApplier;
 
 public class ExitComponentFactory {
     public static <S> GenericComponentApplier<S> executes(final Command<S> command) {
