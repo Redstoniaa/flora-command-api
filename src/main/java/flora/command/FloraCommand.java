@@ -26,26 +26,6 @@ public abstract class FloraCommand<S> {
                                                      CommandRegistryAccess registryAccess);
 
     /**
-     * Gets the context provider(s) that will be used for this command in the command exits.
-     * <p>
-     * Note: you don't need to specify {@link UniversalContextProvider}, it is automatically used.
-     */
-    public List<Class<?>> getContextProviders() {
-        return new ArrayList<>();
-    }
-
-    public final List<ParsedContextProvider<S, ?>> getParsedContextProviders() {
-        List<Class<?>> rawProviders = getContextProviders();
-        List<ParsedContextProvider<S, ?>> parsedProviders = new ArrayList<>();
-
-        for (Class<?> provider : rawProviders) {
-            parsedProviders.add(new ParsedContextProvider<>(provider));
-        }
-
-        return parsedProviders;
-    }
-
-    /**
      * Whether the command should register.
      * @param environment The registration environment.
      */

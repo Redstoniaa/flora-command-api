@@ -20,7 +20,7 @@ public class ArgumentNodeBuilder<S, T>
     public ArgumentCommandNode<S, T> buildThis(CommandBuildInfo<S> info) {
         return new ArgumentCommandNode<>(name.get(info),
                                          type.get(info),
-                                         exit.get(info),
+                                         command.get(info),
                                          requirement.get(info),
                                          redirectTo.get(info),
                                          redirectModifier.get(info),

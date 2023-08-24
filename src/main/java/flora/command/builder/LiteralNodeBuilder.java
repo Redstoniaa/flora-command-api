@@ -19,7 +19,7 @@ public class LiteralNodeBuilder<S>
     @Override
     public LiteralCommandNode<S> buildThis(CommandBuildInfo<S> info) {
         return new LiteralCommandNode<>(literal.get(info),
-                                        exit.get(info),
+                                        command.get(info),
                                         requirement.get(info),
                                         redirectTo.get(info),
                                         redirectModifier.get(info),

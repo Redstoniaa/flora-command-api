@@ -3,7 +3,6 @@ package flora.command.builder;
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.RedirectModifier;
 import com.mojang.brigadier.tree.CommandNode;
-import flora.command.exit.provider.UniversalContextProvider;
 import flora.command.builder.component.Component;
 import flora.command.builder.component.applier.ComponentApplier;
 import flora.command.builder.component.applier.GenericComponentApplier;
@@ -25,7 +24,7 @@ public abstract class NodeBuilder<S, T extends NodeBuilder<S, T>>
         implements GenericComponentApplier<S> {
     public List<NodeBuilder<S, ?>> children = new ArrayList<>();
     
-    public Component<S, Command<S>> exit = new Component<>();
+    public Component<S, Command<S>> command = new Component<>();
     public Component<S, Predicate<S>> requirement = new Component<>();
     public Component<S, CommandNode<S>> redirectTo = new Component<>();
     public Component<S, RedirectModifier<S>> redirectModifier = new Component<>();
@@ -36,13 +35,6 @@ public abstract class NodeBuilder<S, T extends NodeBuilder<S, T>>
     
     public NodeBuilder() {
         // just instantiate all needed components
-        exit.setModifier(command ->
-                                 context -> {
-                                     UniversalContextProvider.context = context;
-                                     int feedback = command.run(context);
-                                     UniversalContextProvider.context = null;
-                                     return feedback;
-                                 });
         requirement.setValue(s -> true);
     }
     

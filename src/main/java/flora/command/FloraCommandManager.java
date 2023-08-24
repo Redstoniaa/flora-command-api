@@ -47,7 +47,6 @@ public class FloraCommandManager {
                 LiteralTreeBuilder<S> builder = command.getBuilder(dispatcher, registryAccess);
 
                 CommandBuildInfo<S> info = new CommandBuildInfo<>();
-                info.contextProviders = command.getParsedContextProviders();
 
                 // manage any extensions
 

@@ -32,7 +32,7 @@ public abstract class CommandExecution<S> {
      */
     protected static <S, E extends CommandExecution<S>> GenericComponentApplier<S> createInner(final Function<E, Integer> exitFunction,
                                                                                                final Function<CommandContext<S>, E> executionSupplier) {
-        return builder -> builder.exit.setValue(
+        return builder -> builder.command.setValue(
                 ctx -> exitFunction.apply(executionSupplier.apply(ctx))
         );
     }
