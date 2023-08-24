@@ -1,16 +1,8 @@
 package flora.command;
 
 import com.mojang.brigadier.CommandDispatcher;
-import flora.command.argument.CommandArgument;
-import flora.command.builder.ArgumentTreeBuilder;
-import flora.command.builder.LiteralTreeBuilder;
-import flora.command.exit.provider.UniversalContextProvider;
-import flora.command.exit.provider.parsed.ParsedContextProvider;
+import flora.command.builder.LiteralNodeBuilder;
 import net.minecraft.command.CommandRegistryAccess;
-import net.minecraft.server.command.CommandManager;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Represents a command.
@@ -19,33 +11,9 @@ import java.util.List;
  */
 public abstract class FloraCommand<S> {
     /**
-     * Gets the command tree of this command as a {@link LiteralTreeBuilder}, which is what is used to build the
+     * Gets the command tree of this command as a {@link LiteralNodeBuilder}, which is what is used to build the
      * command.
      */
-    public abstract LiteralTreeBuilder<S> getBuilder(CommandDispatcher<S> dispatcher,
+    public abstract LiteralNodeBuilder<S> getBuilder(CommandDispatcher<S> dispatcher,
                                                      CommandRegistryAccess registryAccess);
-
-    /**
-     * Whether the command should register.
-     * @param environment The registration environment.
-     */
-    public boolean shouldRegister(CommandManager.RegistrationEnvironment environment) {
-        return true;
-    }
-
-    /**
-     * @param literal Literal value of the node.
-     * @return A fresh {@link LiteralTreeBuilder}.
-     */
-    protected final LiteralTreeBuilder<S> literal(String literal) {
-        return new LiteralTreeBuilder<>(literal);
-    }
-
-    /**
-     * @param argument The argument to be used.
-     * @return A fresh new {@link ArgumentTreeBuilder}.
-     */
-    protected final <T> ArgumentTreeBuilder<S, T> argument(CommandArgument<S, T> argument) {
-        return new ArgumentTreeBuilder<>(argument.name, argument.argumentType, argument.suggestionProvider);
-    }
 }
