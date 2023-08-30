@@ -6,22 +6,25 @@ import net.minecraft.command.CommandRegistryAccess;
 import net.minecraft.server.command.CommandManager;
 
 /**
- * Represents a command.
+ * Represents a single command tree, as one of the branches of the root command node.
  *
- * @param <S> Source type.
+ * @param <S> The source type used by this command.
  */
-public abstract class FloraCommand<S> {
+public interface FloraCommand<S> {
     /**
-     * Gets the command tree of this command as a {@link LiteralNodeBuilder}, which is what is used to build the
-     * command.
-     * <p>
-     * NOTE: the dispatcher is only there for reference, and isn't actually there for you to dispatch your commands!
-     * When you want to dispatch commands, return the NodeBuilder representing your command tree.
-     * <p>
-     * Just return null from this if you don't want a command registered. (e.g. incorrect if the registration
-     * environment is incorrect)
+     * Get the full command tree of this command as a {@link LiteralNodeBuilder}, which will then be built into what can
+     * be used in-game.
+     *
+     * @param dispatcher     The command dispatcher. This is not here to dispatch your commands, as it does not support
+     *                       the {@code NodeBuilder} system, but is intended to be used to reference any information
+     *                       such as the command root.
+     * @param registryAccess The command registry access.
+     * @param environment    The environment within which the command is being built in, to help determine whether to
+     *                       build the mod. If this is a command using the {@code FabricClientCommandSource}, this will
+     *                       be null, so do not reference it!
+     * @return The completed {@code LiteralNodeBuilder} representing the command tree.
      */
-    public abstract LiteralNodeBuilder<S> getBuilder(CommandDispatcher<S> dispatcher,
-                                                     CommandRegistryAccess registryAccess,
-                                                     CommandManager.RegistrationEnvironment environment);
+    LiteralNodeBuilder<S> getBuilder(CommandDispatcher<S> dispatcher,
+                                     CommandRegistryAccess registryAccess,
+                                     CommandManager.RegistrationEnvironment environment);
 }
