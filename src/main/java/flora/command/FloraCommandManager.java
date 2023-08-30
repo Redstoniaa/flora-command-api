@@ -43,7 +43,10 @@ public class FloraCommandManager {
                                              List<FloraCommand<S>> commandList) {
         RootCommandNode<S> rootNode = dispatcher.getRoot();
         for (FloraCommand<S> command : commandList) {
-            LiteralNodeBuilder<S> builder = command.getBuilder(dispatcher, registryAccess);
+            LiteralNodeBuilder<S> builder = command.getBuilder(dispatcher, registryAccess, environment);
+            if (builder == null)
+                continue;
+            
             CommandBuildInfo<S> info = new CommandBuildInfo<>();
             
             // manage any extensions
