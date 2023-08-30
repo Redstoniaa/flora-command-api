@@ -1,11 +1,12 @@
 {
   "schemaVersion": 1,
-  "id": "flora-command-api",
+  "id": "${id}",
   "version": "${version}",
 
-  "name": "Flora Command API",
+  "name": "${name}",
   "description": "Extension to the Brigadier command library, making it easier to create commands, but harder for everyone else who has to download yet another dependency mod.",
   "authors": [
+    "Redstonia"
   ],
   "contact": {
     "sources": "https://github.com/Redstoniaa/brigadier-extension"
@@ -25,7 +26,8 @@
   ],
 
   "depends": {
-    "fabricloader": ">=0.14.19",
+    "minecraft": "*",
+    "fabricloader": ">=0.14.22",
     "fabric-api": "*",
     "java": ">=17"
   }
