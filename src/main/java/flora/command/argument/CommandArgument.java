@@ -4,24 +4,30 @@ import com.mojang.brigadier.arguments.ArgumentType;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.suggestion.SuggestionProvider;
 
-public class CommandArgument<S, T> {
+/**
+ * Represents an argument passed to a command.
+ *
+ * @param <S> The command source type.
+ * @param <V> The type of value that is interpreted from the input passed to the argument.
+ */
+public class CommandArgument<S, V> {
     public final String name;
-    public final ArgumentType<T> argumentType;
-    public final Class<T> outputType;
+    public final ArgumentType<V> argumentType;
+    public final Class<V> valueType;
     public final SuggestionProvider<S> suggestionProvider;
-
-    public CommandArgument(String name, ArgumentType<T> argumentType, Class<T> outputType) {
-        this(name, argumentType, outputType, null);
+    
+    public CommandArgument(String name, ArgumentType<V> argumentType, Class<V> valueType) {
+        this(name, argumentType, valueType, null);
     }
-
-    public CommandArgument(String name, ArgumentType<T> argumentType, Class<T> outputType, SuggestionProvider<S> suggestionProvider) {
+    
+    public CommandArgument(String name, ArgumentType<V> argumentType, Class<V> valueType, SuggestionProvider<S> suggestionProvider) {
         this.name = name;
         this.argumentType = argumentType;
-        this.outputType = outputType;
+        this.valueType = valueType;
         this.suggestionProvider = suggestionProvider;
     }
     
-    public T get(CommandContext<?> ctx) {
-        return ctx.getArgument(name, outputType);
+    public V get(CommandContext<?> ctx) {
+        return ctx.getArgument(name, valueType);
     }
 }
