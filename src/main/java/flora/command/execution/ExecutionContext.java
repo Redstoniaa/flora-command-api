@@ -15,14 +15,23 @@ import java.util.function.Function;
 
 public class ExecutionContext<S>
         extends CommandContext<S> {
+    // This constructor is non-important as it is never used.
     public ExecutionContext(S source, String input, Map<String, ParsedArgument<S, ?>> arguments, Command<S> command, CommandNode<S> rootNode, List<ParsedCommandNode<S>> parsedCommandNodes, StringRange range, CommandContext<S> child, RedirectModifier<S> modifier, boolean forks) {
         super(source, input, arguments, command, rootNode, parsedCommandNodes, range, child, modifier, forks);
     }
     
+    /**
+     * Inner functionality for creating a component applier to set the command of a node.
+     *
+     * @param command The command to run.
+     * @param <S>     Command source type.
+     * @param <E>     Context source type.
+     * @return The completed applier.
+     */
     @SuppressWarnings("unchecked")
-    protected static <S, E extends ExecutionContext<S>> GenericComponentApplier<S> createApplierInner(final Function<E, Integer> exitFunction) {
+    protected static <S, E extends ExecutionContext<S>> GenericComponentApplier<S> createApplierInner(final Function<E, Integer> command) {
         return builder -> builder.command.setValue(
-                ctx -> exitFunction.apply((E) ctx)
+                ctx -> command.apply((E) ctx)
         );
     }
 }
