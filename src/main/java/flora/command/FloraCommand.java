@@ -2,7 +2,7 @@ package flora.command;
 
 import com.mojang.brigadier.CommandDispatcher;
 import flora.command.builder.LiteralNodeBuilder;
-import net.minecraft.command.CommandRegistryAccess;
+import net.minecraft.command.CommandBuildContext;
 import net.minecraft.server.command.CommandManager;
 
 /**
@@ -25,6 +25,6 @@ public interface FloraCommand<S> {
      * @return The completed {@code LiteralNodeBuilder} representing the command tree.
      */
     LiteralNodeBuilder<S> getBuilder(CommandDispatcher<S> dispatcher,
-                                     CommandRegistryAccess registryAccess,
+                                     CommandBuildContext registryAccess,
                                      CommandManager.RegistrationEnvironment environment);
 }

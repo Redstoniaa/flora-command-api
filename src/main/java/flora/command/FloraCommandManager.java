@@ -7,7 +7,7 @@ import flora.command.builder.LiteralNodeBuilder;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
-import net.minecraft.command.CommandRegistryAccess;
+import net.minecraft.command.CommandBuildContext;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
 
@@ -38,7 +38,7 @@ public class FloraCommandManager {
     }
     
     private static <S> void registerCommands(CommandDispatcher<S> dispatcher,
-                                             CommandRegistryAccess registryAccess,
+                                             CommandBuildContext registryAccess,
                                              CommandManager.RegistrationEnvironment environment,
                                              List<FloraCommand<S>> commandList) {
         RootCommandNode<S> rootNode = dispatcher.getRoot();
