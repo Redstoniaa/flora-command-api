@@ -4,8 +4,6 @@ import com.mojang.brigadier.arguments.ArgumentType;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.suggestion.SuggestionProvider;
 
-import static flora.command.exit.provider.UniversalContextProvider.*;
-
 public class CommandArgument<S, T> {
     public final String name;
     public final ArgumentType<T> argumentType;
@@ -22,11 +20,7 @@ public class CommandArgument<S, T> {
         this.outputType = outputType;
         this.suggestionProvider = suggestionProvider;
     }
-
-    public T get() {
-        return get(context);
-    }
-
+    
     public T get(CommandContext<?> ctx) {
         return ctx.getArgument(name, outputType);
     }
